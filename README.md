@@ -1,4 +1,4 @@
-# COSIMA/RAPIDMIX Chanllenge
+# COSIMA/RAPIDMIX Challenge
 
 This repository contains the code for the COSIMA challenge of the SIC
 (http://sic.upf.edu/cosima-challenge/): RAPID-MIX and CoSiMa challenge 
