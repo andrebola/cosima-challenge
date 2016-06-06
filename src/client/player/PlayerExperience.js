@@ -1,37 +1,37 @@
 import * as soundworks from 'soundworks/client';
 import PlayerRenderer from './PlayerRenderer';
+const View = soundworks.View;
 
 const audioContext = soundworks.audioContext;
 
 const viewTemplate = `
-  <canvas class="background"></canvas>
-  <div class="foreground">
-    <div class="section-top flex-middle"></div>
-    <div class="section-center flex-center">
-      <p class="big"><%= title %></p>
-    </div>
-    <div class="section-bottom flex-middle"></div>
+  <div class="section-top"></div>
+  <div class="section-center flex-center">
+  <a href="#" id="button">Click</a>
   </div>
+  <div class="section-bottom"></div>
 `;
 
 // this experience plays a sound when it starts, and plays another sound when
 // other clients join the experience
 export default class PlayerExperience extends soundworks.Experience {
-  constructor(audioFiles) {
+  constructor() {
     super();
 
-    this.platform = this.require('platform', { features: ['web-audio'] });
-    this.loader = this.require('loader', { files: audioFiles });
-    this.checkin = this.require('checkin', { showDialog: false });
+    this.platform = this.require('platform', { showDialog: true });
+
+    this.onStartMessage = this.onStartMessage.bind(this);
+    this.onStopMessage = this.onStopMessage.bind(this);
+    this.wait = true;
   }
 
   init() {
-    // initialize the view
+
     this.viewTemplate = viewTemplate;
-    this.viewContent = { title: `Let's go!` };
-    this.viewCtor = soundworks.CanvasView;
+    this.viewCtor = View;
     this.view = this.createView();
-  }
+
+ }
 
   start() {
     super.start(); // don't forget this
@@ -41,32 +41,35 @@ export default class PlayerExperience extends soundworks.Experience {
 
     this.show();
 
-    // play the first loaded buffer immediately
-    const src = audioContext.createBufferSource();
-    src.buffer = this.loader.buffers[0];
-    src.connect(audioContext.destination);
-    src.start(audioContext.currentTime);
+    var that = this;
+    // If the user clicks the button the send notification to server
+    document.getElementById("button").addEventListener("click", function(){that.onTouchEnd()});
+   
+    // When server send stop and start message execute corresponding functions
+    this.receive('start', this.onStartMessage);
+    this.receive('stop', this.onStopMessage);
+  }
 
-    // play the second loaded buffer when the message `play` is received from
-    // the server, the message is send when another player joins the experience.
-    this.receive('play', () => {
-      const delay = Math.random();
-      const src = audioContext.createBufferSource();
-      src.buffer = this.loader.buffers[1];
-      src.connect(audioContext.destination);
-      src.start(audioContext.currentTime + delay);
-    });
+  /**
+   * Callback to be executed when receiving the `start` message from the server.
+   */
+  onStartMessage() {
+    // start synth and change background color
+    this.view.$el.classList.add('active');
+    this.wait = false;
+  }
 
-    // initialize rendering
-    this.renderer = new PlayerRenderer(100, 100);
-    this.view.addRenderer(this.renderer);
-    // this given function is called before each update (`Renderer.render`) of the canvas
-    this.view.setPreRender(function(ctx, dt) {
-      ctx.save();
-      ctx.globalAlpha = 0.05;
-      ctx.fillStyle = '#000000';
-      ctx.fillRect(0, 0, ctx.width, ctx.height);
-      ctx.restore();
-    });
+  /**
+   * Callback to be executed when receiving the `stop` message from the server.
+   */
+  onStopMessage() {
+    // stop synth and change background color
+    this.view.$el.classList.remove('active');
+    this.wait = true;
+  }
+  onTouchEnd() {
+    if (!this.wait){
+      this.send('input:change',"");
+    }
   }
 }

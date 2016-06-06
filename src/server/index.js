@@ -24,7 +24,7 @@ soundworks.server.setClientConfigDefinition((clientType, config, httpRequest) =>
 // `src/server/playerExperience.js`) and the server side `playerExperience`.
 // - we could also map activities to additional client types (thus defining a
 //   route (url) of the following form: `/${clientType}`)
-const experience = new PlayerExperience('player');
+const experience = new PlayerExperience(['player', 'shared-env']);
 
 // start application
 soundworks.server.start();
