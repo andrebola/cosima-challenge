@@ -1,14 +1,8 @@
 // import client side soundworks and player experience
 import * as soundworks from 'soundworks/client';
-import PlayerExperience from './PlayerExperience.js';
+import SharedExperience from './SharedExperience.js';
 import viewTemplates from '../shared/viewTemplates';
 import viewContent from '../shared/viewContent';
-
-// list of files to load (passed to the experience)
-const files = [
-  'sounds/sound-welcome.mp3',
-  'sounds/sound-others.mp3'
-];
 
 // launch application when document is fully loaded
 window.addEventListener('load', () => {
@@ -22,7 +16,7 @@ window.addEventListener('load', () => {
   soundworks.client.setViewTemplateDefinitions(viewTemplates);
 
   // create client side (player) experience
-  const experience = new PlayerExperience(assetsDomain, files);
+  const experience = new SharedExperience(assetsDomain);
 
   // start the client
   soundworks.client.start();

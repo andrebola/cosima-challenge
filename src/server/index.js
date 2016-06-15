@@ -3,6 +3,8 @@ import * as soundworks from 'soundworks/server';
 import PlayerExperience from './PlayerExperience';
 import defaultConfig from './config/default';
 
+// import $
+
 let config = null;
 
 switch(process.env.ENV) {
