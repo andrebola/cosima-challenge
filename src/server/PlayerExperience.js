@@ -8,11 +8,13 @@ export default class PlayerExperience extends Experience {
     this.players = new Map();
   }
 
+  // if anything needs to append when the experience starts
+  start() {}
+
   // if anything needs to happen when a client enters the performance (*i.e.*
   // starts the experience on the client side), write it in the `enter` method
   enter(client) {
     super.enter(client);
-
     // define what to do ccording to the `client` type (i.e. `player` or `soloist`)
     switch (client.type) {
       case 'shared-env':
@@ -21,10 +23,10 @@ export default class PlayerExperience extends Experience {
       case 'player':
         this.onPlayerEnter(client);
         break;
-    }
+    } 
   }
- 
-  formatClientInformations(client) {
+
+ formatClientInformations(client) {
     return {
       id: client.uuid,
     };

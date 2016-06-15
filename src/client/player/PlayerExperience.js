@@ -1,8 +1,9 @@
 import * as soundworks from 'soundworks/client';
 import PlayerRenderer from './PlayerRenderer';
-const View = soundworks.View;
 
+const View = soundworks.View;
 const audioContext = soundworks.audioContext;
+
 
 const viewTemplate = `
   <div class="section-top"></div>
@@ -11,11 +12,10 @@ const viewTemplate = `
   </div>
   <div class="section-bottom"></div>
 `;
-
 // this experience plays a sound when it starts, and plays another sound when
 // other clients join the experience
 export default class PlayerExperience extends soundworks.Experience {
-  constructor() {
+  constructor(assetsDomain, audioFiles) {
     super();
 
     this.platform = this.require('platform', { showDialog: true });
@@ -23,15 +23,14 @@ export default class PlayerExperience extends soundworks.Experience {
     this.onStartMessage = this.onStartMessage.bind(this);
     this.onStopMessage = this.onStopMessage.bind(this);
     this.wait = true;
+
   }
 
   init() {
-
     this.viewTemplate = viewTemplate;
     this.viewCtor = View;
     this.view = this.createView();
-
- }
+  }
 
   start() {
     super.start(); // don't forget this
@@ -40,7 +39,6 @@ export default class PlayerExperience extends soundworks.Experience {
       this.init();
 
     this.show();
-
     var that = this;
     // If the user clicks the button the send notification to server
     document.getElementById("button").addEventListener("click", function(){that.onTouchEnd()});
@@ -49,8 +47,7 @@ export default class PlayerExperience extends soundworks.Experience {
     this.receive('start', this.onStartMessage);
     this.receive('stop', this.onStopMessage);
   }
-
-  /**
+/**
    * Callback to be executed when receiving the `start` message from the server.
    */
   onStartMessage() {
