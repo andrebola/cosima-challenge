@@ -680,7 +680,8 @@ p, .normal {
   /* Internet Explorer/Edge */
   user-select: none;
   /* Non-prefixed version, currently
-                                  not supported by any browser */ }
+                                  not supported by any browser */
+  border: none; }
 
 html, body {
   width: 100%;
