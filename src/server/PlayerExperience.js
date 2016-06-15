@@ -6,6 +6,10 @@ export default class PlayerExperience extends Experience {
     super(clientType);
 
     this.players = new Map();
+    this.states = ['sunny', 'wind1', 'wind2', 'rain', 'thunder', 'waves'];
+    this.currentState = 0;
+    this.currentLevel = 0;
+    this.persistValue = 1000;
   }
 
   // if anything needs to append when the experience starts
@@ -29,6 +33,7 @@ export default class PlayerExperience extends Experience {
  formatClientInformations(client) {
     return {
       id: client.uuid,
+      states: {0: false, 1: false, 2: false, 3: false, 4: false, 5: false};
     };
   }
  
@@ -47,6 +52,19 @@ export default class PlayerExperience extends Experience {
     // listen touch inputs from the `player` client
     this.send(client, 'start');
     this.receive(client, 'input:change', (radius, coordinates) => {
+      if (this.currentLevel > 0.9){
+        updateState();
+      }
+      info = this.players.get(client);
+      var n = new Date().getTime();
+      if (!info['states'][this.currentState] || n - info['states'][this.currentState] > this.persistValue){
+        info['states'][this.currentState] = n;
+        var size = Object.keys(this.players).length;
+        this.currentLevel += 1/size;
+      }
+
+
+
       this.send(client, 'stop');
       // when the click event is received from the user we notify to all the 
       // shared-env clients
@@ -55,7 +73,15 @@ export default class PlayerExperience extends Experience {
     });
 
   } 
+  updateState(){
+    if (this.currentState < 4){
+       this.currentState +=1;
+       //this.broadcast('shared-env', null, 'updatedState', this.states[this.currentState]);
+       this.broadcast(['player', 'shared-env'], null, 'updatedState', this.states[this.currentState]);
 
+    }
+  }
+  
   onPlayerExit(client) {
     // retrieve stored informations from the client
     const infos = this.players.get(client);
