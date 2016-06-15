@@ -16,11 +16,12 @@ const viewTemplate = `
 
 // this experience plays a sound when it starts, and plays another sound when
 // other clients join the experience
-export default class PlayerExperience extends soundworks.Experience {
+export default class SharedExperience extends soundworks.Experience {
   constructor(assetsDomain, audioFiles) {
     super();
 
     this.platform = this.require('platform', { features: ['web-audio'] });
+    console.log('???');
   }
 
   init() {
@@ -28,7 +29,7 @@ export default class PlayerExperience extends soundworks.Experience {
     this.viewTemplate = viewTemplate;
     this.viewContent = { title: `Let's go!` };
     this.viewCtor = soundworks.CanvasView;
-    this.view = this.createView();   
+    this.view = this.createView();
   }
 
   start() {
@@ -38,10 +39,9 @@ export default class PlayerExperience extends soundworks.Experience {
       this.init();
 
     this.show();
-    // Handle click event from users
-    this.receive('player:add', this.onPlayerList);
-  }
-  onPlayerList(playerList) {
-    console.log("Received Click")
+    console.log('test');
+    // handle click event from users
+    this.receive('cue', (cueIndex) => console.log(cueIndex));
+    this.receive('test', (val) => console.log(val));
   }
 }
