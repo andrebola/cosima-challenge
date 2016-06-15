@@ -25,19 +25,14 @@
 }
 
 
+html, body {
+	width: 100%;
+	height: 100%;
+}
+
 body {
 	text-align: center;
 	margin: 0 auto;
-	&#stage1 {
-		background: #b2e95a;
-	}
-	&#stage2 {
-		background: #74983B;
-	}
-	&#stage3 {
-		background: #6184ab;
-	}
-
 }
 
 #interaction {
@@ -47,14 +42,21 @@ body {
 	margin: 0 auto;
 	width: 100%;
 	height: 100%;
+	&.stage1 {
+		background: #b2e95a;
+	}
+	&.stage2 {
+		background: #74983B;
+	}
+	&.stage3 {
+		background: #6184ab;
+	}
+
 }
 
 #buttons {
 	position: relative;
-	left: 50px;
 	top: 250px;
-	width: 100%;
-	height: 100%;
 }
 
 #btn_1 {
@@ -89,7 +91,7 @@ body {
 
 }
 
-#stage1 {
+.stage1 {
 	#btn_1 { @include basic_btn(.5s, rgba(#fff, 0.5)); }
 	#btn_2 { @include basic_btn(.5s, rgba(#fff, 0.0)); }
 	#btn_3 { @include basic_btn(.5s, rgba(#fff, 0.0)); }
@@ -99,7 +101,7 @@ body {
 	#btn_7 { @include basic_btn(.5s, rgba(#fff, 0.0)); }
 }
 
-#stage2 {
+.stage2 {
 	#btn_1 { @include basic_btn(3s, rgba(#fff, 0.2)); }
 	#btn_2 { @include basic_btn(3s, rgba(#969861, 0.5)); }
 	#btn_3 { @include basic_btn(3s, rgba(#4B6172, 0.5)); }
@@ -109,7 +111,7 @@ body {
 	#btn_7 { @include basic_btn(3s, rgba(#5B7685, 0.2)); }
 }
 
-#stage3 {
+.stage3 {
 	#btn_1 { @include basic_btn(.5s, rgba(#fff, 0.0)); }
 	#btn_2 { @include basic_btn(.5s, rgba(#fff, 0.0)); }
 	#btn_3 { @include basic_btn(.5s, rgba(#fff, 0.0)); }
