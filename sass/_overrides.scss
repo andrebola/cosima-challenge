@@ -8,13 +8,13 @@
 	position: absolute;
 	margin-top: -50px;
 	margin-left: -50px;
-	&:active {
+	&.touched {
 		transform: scale(2);
 		transition: all $speed;
 	}
 }
 
-.noselect {
+.btn {
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none;   /* Chrome/Safari/Opera */
   -khtml-user-select: none;    /* Konqueror */
@@ -49,7 +49,13 @@ body {
 		background: #74983B;
 	}
 	&.stage3 {
+		background: #74988A;
+	}
+	&.stage4 {
 		background: #6184ab;
+	}
+	&.stage5 {
+		background: #000;
 	}
 
 }
