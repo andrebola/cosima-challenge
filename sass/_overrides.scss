@@ -1,1 +1,108 @@
-// Entry point for application specific styles
+@mixin basic_btn($speed, $color) {
+  	width: 100px;
+  	height: 100px;
+  	transform: scale(1);
+	transition: all $speed;
+	background-color: $color;
+	border-radius: 50%;
+	position: absolute;
+	margin-top: -50px;
+	margin-left: -50px;
+	&.touched {
+		transform: scale(2);
+		transition: all $speed;
+	}
+}
+
+.btn {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* Internet Explorer/Edge */
+  user-select: none;           /* Non-prefixed version, currently
+                                  not supported by any browser */
+    border: none;
+}
+
+
+html, body {
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	text-align: center;
+	margin: 0 auto;
+}
+
+#interaction {
+	display: box;
+	box-pack: center;
+	box-align: center;
+	margin: 0 auto;
+	width: 100%;
+	height: 100%;
+	&.stage1 {
+		background: #b2e95a;
+	}
+	&.stage2 {
+		background: #74983B;
+	}
+	&.stage3 {
+		background: #74988A;
+	}
+	&.stage4 {
+		background: #6184ab;
+	}
+	&.stage5 {
+		background: #000;
+	}
+
+}
+
+#buttons {
+	position: relative;
+	top: 50%;
+	left: 50%;
+	margin-right: -50%;
+}
+
+#btn_2 { top: -100px; left: 75px; }
+#btn_3 { left: 110px; }
+#btn_4 { top: 100px; left: 75px; }
+#btn_5 { top: 100px; left: -75px; }
+#btn_6 { left: -110px; }
+#btn_7 { top: -100px; left: -75px; }
+
+.stage1 {
+	#btn_1 { @include basic_btn(.5s, rgba(#fff, 0.5)); }
+	#btn_2 { @include basic_btn(.5s, rgba(#fff, 0.0)); }
+	#btn_3 { @include basic_btn(.5s, rgba(#fff, 0.0)); }
+	#btn_4 { @include basic_btn(.5s, rgba(#fff, 0.0)); }
+	#btn_5 { @include basic_btn(.5s, rgba(#fff, 0.0)); }
+	#btn_6 { @include basic_btn(.5s, rgba(#fff, 0.0)); }
+	#btn_7 { @include basic_btn(.5s, rgba(#fff, 0.0)); }
+}
+
+.stage2 {
+	#btn_1 { @include basic_btn(3s, rgba(#fff, 0.2)); }
+	#btn_2 { @include basic_btn(3s, rgba(#969861, 0.5)); }
+	#btn_3 { @include basic_btn(3s, rgba(#4B6172, 0.5)); }
+	#btn_4 { @include basic_btn(3s, rgba(#32404C, 0.5)); }
+	#btn_5 { @include basic_btn(3s, rgba(#BEB237, 0.5)); }
+	#btn_6 { @include basic_btn(3s, rgba(#5B768B, 0.5)); }
+	#btn_7 { @include basic_btn(3s, rgba(#5B7685, 0.2)); }
+}
+
+.stage3 {
+	#btn_1 { @include basic_btn(.5s, rgba(#fff, 0.0)); }
+	#btn_2 { @include basic_btn(.5s, rgba(#fff, 0.0)); }
+	#btn_3 { @include basic_btn(.5s, rgba(#fff, 0.0)); }
+	#btn_4 { @include basic_btn(.5s, rgba(#fff, 0.0)); }
+	#btn_5 { @include basic_btn(.5s, rgba(#fff, 0.0)); }
+	#btn_6 { @include basic_btn(.5s, rgba(#fff, 0.0)); }
+	#btn_7 { @include basic_btn(.5s, rgba(#fff, 0.0)); }
+}
+
+

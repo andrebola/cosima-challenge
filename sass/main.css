@@ -1,0 +1,1032 @@
+/**
+ * Mixins
+ */
+/**
+ * Defines some global layout variables (background-color, text-color, etc...)
+ * Change values to change the general look of the application
+ */
+@font-face {
+  font-family: "Quicksand";
+  font-weight: 100;
+  src: url("../fonts/Quicksand-Light.ttf") format("truetype"); }
+
+@font-face {
+  font-family: "Quicksand";
+  font-weight: 400;
+  src: url("../fonts/Quicksand-Regular.ttf") format("truetype"); }
+
+@font-face {
+  font-family: "Quicksand";
+  font-weight: 700;
+  src: url("../fonts/Quicksand-Bold.ttf") format("truetype"); }
+
+/**
+ * These color swatches were inspired by the swatches
+ * found in Flat UI, by designmodo.
+ * http://designmodo.com/flat-free/
+ */
+/**
+ * Class helpers (.small, .big for font sizes, .btn, etc..)
+ */
+/**
+ * The following code is inspired by:
+ *   http://meyerweb.com/eric/tools/css/reset/
+ *   v2.0 | 20110126
+ *   License: none (public domain)
+ */
+html, body, div, span, h1, h2, h3, h4, h5, h6, p, a, button, input, option, select {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline; }
+
+body {
+  line-height: 1; }
+
+ol, ul {
+  list-style: none; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: #080808; }
+
+body {
+  font-family: Quicksand, arial, sans-serif;
+  font-size: 62.5%;
+  line-height: normal;
+  color: rgba(255, 255, 255, 0.9); }
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold; }
+
+p {
+  margin: 0;
+  padding: 0; }
+
+#container {
+  position: relative; }
+
+.foreground {
+  position: relative;
+  z-index: 1; }
+
+.background {
+  position: absolute;
+  top: 0;
+  left: 0; }
+
+.fit-container {
+  display: block;
+  width: 100%;
+  height: 100%; }
+
+.flex-center, .flex-middle {
+  box-sizing: border-box;
+  padding: 10px;
+  display: flex;
+  display: -webkit-flex;
+  /* Safari */ }
+  .flex-center > *, .flex-middle > * {
+    text-align: center;
+    flex-basis: 100%;
+    -webkit-flex-basis: 100%;
+    width: 100%; }
+
+.flex-middle {
+  align-items: center;
+  -webkit-align-items: center; }
+
+@-webkit-keyframes soft-blink {
+  0% {
+    opacity: 1.0; }
+  50% {
+    opacity: 0.3; }
+  100% {
+    opacity: 1.0; } }
+
+@-moz-keyframes soft-blink {
+  0% {
+    opacity: 1.0; }
+  50% {
+    opacity: 0.3; }
+  100% {
+    opacity: 1.0; } }
+
+@-ms-keyframes soft-blink {
+  0% {
+    opacity: 1.0; }
+  50% {
+    opacity: 0.3; }
+  100% {
+    opacity: 1.0; } }
+
+@-o-keyframes soft-blink {
+  0% {
+    opacity: 1.0; }
+  50% {
+    opacity: 0.3; }
+  100% {
+    opacity: 1.0; } }
+
+@keyframes soft-blink {
+  0% {
+    opacity: 1.0; }
+  50% {
+    opacity: 0.3; }
+  100% {
+    opacity: 1.0; } }
+
+.huge {
+  font-size: 3rem; }
+
+.big {
+  font-size: 2rem; }
+
+p, .normal {
+  font-size: 1.5rem; }
+
+.small {
+  font-size: 1rem; }
+
+.bold {
+  font-weight: bold; }
+
+.italic {
+  font-style: italic; }
+
+.btn {
+  background-color: #080808;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 2px;
+  color: rgba(255, 255, 255, 0.9);
+  padding: 6px 0;
+  font-size: 1rem;
+  display: block;
+  -webkit-transition: background-color 50ms;
+  -moz-transition: background-color 50ms;
+  -ms-transition: background-color 50ms;
+  -o-transition: background-color 50ms;
+  transition: background-color 50ms;
+  letter-spacing: 0.05em; }
+  .btn:active {
+    background-color: rgba(255, 255, 255, 0.9); }
+  .btn:focus {
+    outline: none; }
+  .btn.unselected, .btn.disabled, .btn[disabled] {
+    opacity: 0.5; }
+  .btn.selected {
+    opacity: 1; }
+
+.landscape .portrait-only {
+  display: none; }
+
+.landscape br.portrait-only {
+  content: ' ';
+  display: inline; }
+  .landscape br.portrait-only:after {
+    content: ' '; }
+
+.soft-blink {
+  -webkit-animation: soft-blink 3.6s ease-in-out infinite;
+  -moz-animation: soft-blink 3.6s ease-in-out infinite;
+  -ms-animation: soft-blink 3.6s ease-in-out infinite;
+  -o-animation: soft-blink 3.6s ease-in-out infinite;
+  animation: soft-blink 3.6s ease-in-out infinite; }
+
+/**
+ * Services styles.
+ */
+.space svg {
+  overflow: hidden;
+  background-color: #242424; }
+
+.space .point {
+  fill: #ffffff; }
+  .space .point.selected {
+    fill: #4d4d4d; }
+
+.space .line {
+  stroke: #ffffff;
+  stroke-width: 1px; }
+  .space .line.arrow {
+    marker-mid: url(#marker-arrow); }
+
+.space .marker-arrow {
+  fill: #ffffff; }
+
+.buttons .btn {
+  width: 90%;
+  margin: 5%; }
+
+.select {
+  color: #080808;
+  background-color: #ffffff;
+  font-size: 1.3rem;
+  line-height: 3rem;
+  height: 3rem; }
+
+#service-auth input[type=password], #service-auth .btn {
+  width: 100%; }
+
+#service-auth input[type=password] {
+  font-size: 1.4rem;
+  height: 30px;
+  margin-bottom: 12px;
+  text-align: center;
+  color: #343434; }
+
+#service-checkin .checkin-label {
+  margin: 0 auto;
+  background-color: #2980b9;
+  border-radius: 50%; }
+
+#service-checkin.portrait .checkin-label {
+  flex-basis: 160px;
+  height: 160px; }
+  #service-checkin.portrait .checkin-label p {
+    line-height: 160px; }
+
+#service-checkin.landscape .checkin-label {
+  flex-basis: 120px;
+  height: 120px; }
+  #service-checkin.landscape .checkin-label p {
+    line-height: 120px; }
+
+#service-loader .progress-wrap {
+  margin: 12px auto 0;
+  border: solid 1px white;
+  border-radius: 5px;
+  height: 10px;
+  overflow: hidden;
+  flex-basis: 80%; }
+
+#service-loader .progress-bar {
+  background-color: white;
+  height: 10px;
+  width: 0;
+  -webkit-transition: width 150ms;
+  -moz-transition: width 150ms;
+  -ms-transition: width 150ms;
+  -o-transition: width 150ms;
+  transition: width 150ms; }
+
+/**
+ * Import and overrides `wavesjs/basic-controllers` sass files,
+ * rendering of the controls can be configured though variables here.
+ */
+#basic-shared-controller {
+  /* 2 for borders */
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 10px;
+  box-sizing: border-box;
+  /* -------------------------------------------
+   TITLE
+   ------------------------------------------- */
+  /* -------------------------------------------
+     SLIDER
+     ------------------------------------------- */
+  /* -------------------------------------------
+     NUMBER BOX
+     ------------------------------------------- */
+  /* -------------------------------------------
+     SELECT LIST
+     ------------------------------------------- */
+  /* -------------------------------------------
+     SELECT BUTTONS
+     ------------------------------------------- */
+  /* -------------------------------------------
+     INFOS
+     ------------------------------------------- */ }
+  #basic-shared-controller h1 {
+    margin: 8px 0; }
+  #basic-shared-controller .waves-basic-controllers {
+    width: 100%;
+    max-width: 800px;
+    height: 36px;
+    padding: 3px;
+    margin: 4px auto;
+    background-color: #242424;
+    border: 1px solid #282828;
+    box-sizing: border-box;
+    border-radius: 2px;
+    display: block;
+    color: #ffffff; }
+    #basic-shared-controller .waves-basic-controllers .legend {
+      font: italic normal 14px Quicksand, arial, sans-serif;
+      line-height: 28px;
+      overflow: hidden;
+      text-align: right;
+      padding: 0 12px 0 0;
+      display: block;
+      box-sizing: border-box;
+      width: 24%;
+      float: left;
+      white-space: nowrap;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      -o-user-select: none;
+      user-select: none; }
+    #basic-shared-controller .waves-basic-controllers .inner-wrapper {
+      display: -webkit-inline-flex;
+      display: inline-flex;
+      -webkit-flex-wrap: no-wrap;
+      flex-wrap: no-wrap;
+      width: 76%;
+      float: left; }
+  #basic-shared-controller .waves-basic-controllers.small:not(.align-small) {
+    height: auto; }
+    #basic-shared-controller .waves-basic-controllers.small:not(.align-small) .legend {
+      width: 100%;
+      float: none;
+      text-align: left; }
+    #basic-shared-controller .waves-basic-controllers.small:not(.align-small) .inner-wrapper {
+      width: 100%;
+      float: none; }
+  #basic-shared-controller .waves-basic-controllers.small.align-small .legend {
+    display: block;
+    margin-right: 20px;
+    text-align: left; }
+  #basic-shared-controller .waves-basic-controllers.small.align-small .inner-wrapper {
+    display: inline-block;
+    width: auto; }
+  #basic-shared-controller .waves-basic-controllers.small.buttons .legend {
+    display: none; }
+  #basic-shared-controller .waves-basic-controllers .arrow-right, #basic-shared-controller .waves-basic-controllers .arrow-left {
+    border-radius: 2px;
+    width: 14px;
+    height: 28px;
+    cursor: pointer;
+    background-color: #464646; }
+    #basic-shared-controller .waves-basic-controllers .arrow-right line, #basic-shared-controller .waves-basic-controllers .arrow-left line {
+      stroke-width: 3px;
+      stroke: #ffffff; }
+    #basic-shared-controller .waves-basic-controllers .arrow-right:hover, #basic-shared-controller .waves-basic-controllers .arrow-left:hover {
+      background-color: #686868; }
+    #basic-shared-controller .waves-basic-controllers .arrow-right:active, #basic-shared-controller .waves-basic-controllers .arrow-left:active {
+      background-color: #909090; }
+  #basic-shared-controller .waves-basic-controllers .toggle-element {
+    width: 28px;
+    height: 28px;
+    border-radius: 2px;
+    background-color: #464646;
+    cursor: pointer; }
+    #basic-shared-controller .waves-basic-controllers .toggle-element:hover {
+      background-color: #686868; }
+    #basic-shared-controller .waves-basic-controllers .toggle-element line {
+      stroke-width: 3px; }
+    #basic-shared-controller .waves-basic-controllers .toggle-element .x {
+      display: none; }
+    #basic-shared-controller .waves-basic-controllers .toggle-element.active .x {
+      display: block; }
+  #basic-shared-controller .waves-basic-controllers .btn {
+    display: block;
+    text-align: center;
+    font: normal normal 12px arial;
+    text-decoration: none;
+    height: 28px;
+    line-height: 28px;
+    background-color: #464646;
+    border: none;
+    color: #ffffff;
+    margin: 0 4px 0 0;
+    padding: 0;
+    box-sizing: border-box;
+    border-radius: 2px;
+    cursor: pointer;
+    -webkit-flex-grow: 1;
+    flex-grow: 1; }
+    #basic-shared-controller .waves-basic-controllers .btn:last-child {
+      margin: 0; }
+    #basic-shared-controller .waves-basic-controllers .btn:hover {
+      background-color: #686868; }
+    #basic-shared-controller .waves-basic-controllers .btn:active, #basic-shared-controller .waves-basic-controllers .btn.active {
+      background-color: #909090; }
+    #basic-shared-controller .waves-basic-controllers .btn:focus {
+      outline: none; }
+  #basic-shared-controller .waves-basic-controllers .number {
+    height: 28px;
+    display: inline-block;
+    position: relative;
+    font: normal normal 14px Quicksand, arial, sans-serif;
+    vertical-align: top;
+    border: none;
+    background: none;
+    color: #ffffff;
+    padding: 0 4px;
+    margin: 0;
+    background-color: #2e2e2e;
+    border-radius: 2px;
+    box-sizing: border-box; }
+    #basic-shared-controller .waves-basic-controllers .number:focus {
+      outline: none; }
+  #basic-shared-controller .waves-basic-controllers select {
+    height: 28px;
+    line-height: 28px;
+    background-color: #2e2e2e;
+    border-radius: 2px;
+    border: none;
+    vertical-align: top;
+    padding: 0;
+    margin: 0; }
+    #basic-shared-controller .waves-basic-controllers select:focus {
+      outline: none; }
+  #basic-shared-controller .waves-basic-controllers input[type=text] {
+    width: 100%;
+    height: 28px;
+    line-height: 28px;
+    border: 0;
+    padding: 0 4px;
+    background-color: #2e2e2e;
+    border-radius: 2px;
+    color: #cdcdcd; }
+  #basic-shared-controller .waves-basic-controllers.title {
+    border: none !important;
+    margin-bottom: 0;
+    margin-top: 8px;
+    padding-top: 8px;
+    padding-bottom: 0;
+    background-color: transparent !important;
+    height: 30px !important; }
+    #basic-shared-controller .waves-basic-controllers.title .legend {
+      font: normal bold 15px Quicksand, arial, sans-serif;
+      height: 100%;
+      overflow: hidden;
+      text-align: left;
+      padding: 0;
+      width: 100%;
+      box-sizing: border-box;
+      -webkit-flex-grow: 1;
+      flex-grow: 1; }
+  #basic-shared-controller .waves-basic-controllers.slider .range {
+    height: 28px;
+    display: inline-block;
+    margin: 0;
+    -webkit-flex-grow: 4;
+    flex-grow: 4; }
+  #basic-shared-controller .waves-basic-controllers.slider .number-wrapper {
+    display: inline;
+    height: 28px;
+    text-align: right;
+    -webkit-flex-grow: 3;
+    flex-grow: 3; }
+    #basic-shared-controller .waves-basic-controllers.slider .number-wrapper .number {
+      left: 5px;
+      width: 54px;
+      text-align: right;
+      font: normal normal 10px Quicksand, arial, sans-serif; }
+    #basic-shared-controller .waves-basic-controllers.slider .number-wrapper .unit {
+      font: italic normal 14px Quicksand, arial, sans-serif;
+      line-height: 28px;
+      height: 28px;
+      width: 30px;
+      display: inline-block;
+      position: relative;
+      padding-left: 5px;
+      padding-right: 5px;
+      color: #cdcdcd; }
+      #basic-shared-controller .waves-basic-controllers.slider .number-wrapper .unit sup {
+        line-height: 7px; }
+  #basic-shared-controller .waves-basic-controllers.slider.slider-large .range {
+    -webkit-flex-grow: 50;
+    flex-grow: 50; }
+  #basic-shared-controller .waves-basic-controllers.slider.slider-large .number-wrapper {
+    -webkit-flex-grow: 1;
+    flex-grow: 1; }
+  #basic-shared-controller .waves-basic-controllers.slider.slider-small .range {
+    -webkit-flex-grow: 1;
+    flex-grow: 1; }
+  #basic-shared-controller .waves-basic-controllers.slider.slider-small .number-wrapper {
+    -webkit-flex-grow: 7;
+    flex-grow: 7; }
+  #basic-shared-controller .waves-basic-controllers.number-box .number {
+    width: 120px;
+    margin: 0 10px;
+    vertical-align: top; }
+  #basic-shared-controller .waves-basic-controllers.select-list select {
+    margin: 0 10px;
+    width: 120px;
+    font: normal normal 14px Quicksand, arial, sans-serif;
+    color: #ffffff; }
+  #basic-shared-controller .waves-basic-controllers.select-buttons .btn:first-of-type {
+    margin-left: 4px; }
+  #basic-shared-controller .waves-basic-controllers.info input[type=text] {
+    font: normal normal 14px Quicksand, arial, sans-serif;
+    color: #ffffff; }
+
+/**
+ * Default styles for the `survey` scene.
+ */
+#survey {
+  /* Special styling for WebKit/Blink */
+  /* All the same stuff for Firefox */ }
+  #survey .section-center {
+    padding: 10px;
+    box-sizing: border-box; }
+  #survey .question {
+    width: 100%;
+    height: 100%; }
+  #survey .label {
+    text-align: left;
+    padding-bottom: 6px;
+    font-style: italic;
+    font-size: 1.1rem; }
+  #survey .answer {
+    font-size: 1rem;
+    position: relative;
+    padding: 8px 0 6px 0;
+    margin-bottom: 1px;
+    border-radius: 2px;
+    -webkit-transition: background-color 0.2s;
+    -moz-transition: background-color 0.2s;
+    -ms-transition: background-color 0.2s;
+    -o-transition: background-color 0.2s;
+    transition: background-color 0.2s; }
+    #survey .answer.radio, #survey .answer.checkbox {
+      padding-left: 50px; }
+    #survey .answer.selected {
+      background-color: rgba(255, 255, 255, 0.2); }
+    #survey .answer.radio:before {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 10px;
+      width: 16px;
+      height: 16px;
+      background-color: transparent;
+      border-radius: 50%;
+      border: 1px solid white;
+      -webkit-transition: background-color 0.2s;
+      -moz-transition: background-color 0.2s;
+      -ms-transition: background-color 0.2s;
+      -o-transition: background-color 0.2s;
+      transition: background-color 0.2s; }
+    #survey .answer.radio.selected:before {
+      background-color: white; }
+    #survey .answer.checkbox:before {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 10px;
+      width: 16px;
+      height: 16px;
+      background-color: transparent;
+      border-radius: 2px;
+      border: 1px solid white;
+      -webkit-transition: background-color 0.2s;
+      -moz-transition: background-color 0.2s;
+      -ms-transition: background-color 0.2s;
+      -o-transition: background-color 0.2s;
+      transition: background-color 0.2s; }
+    #survey .answer.checkbox.selected:before {
+      background-color: white; }
+  #survey input[type=range] {
+    -webkit-appearance: none;
+    /* Hides the slider so that custom slider can be made */
+    width: 100%;
+    /* Specific width is required for Firefox. */
+    background-color: transparent; }
+  #survey input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; }
+  #survey input[type=range]:focus {
+    outline: none;
+    /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */ }
+  #survey input[type=range]::-ms-track {
+    width: 100%;
+    cursor: pointer;
+    background: transparent;
+    /* Hides the slider so custom styles can be added */
+    border-color: transparent;
+    color: transparent; }
+  #survey input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background: #ffffff;
+    cursor: pointer;
+    margin-top: -17px;
+    /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */ }
+  #survey input[type=range]::-moz-range-thumb {
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background: #ffffff;
+    cursor: pointer; }
+  #survey input[type=range]::-webkit-slider-runnable-track {
+    height: 8px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 3px;
+    border: 0.2px solid #010101; }
+  #survey input[type=range]:focus::-webkit-slider-runnable-track {
+    background: rgba(255, 255, 255, 0.9); }
+  #survey input[type=range]::-moz-range-track {
+    height: 8px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 3px;
+    border: 0.2px solid #010101; }
+  #survey input[type=range].slider {
+    width: 100%;
+    margin: 20px 0;
+    float: left; }
+  #survey .textarea {
+    color: #080808;
+    padding: 10px;
+    box-sizing: border-box; }
+  #survey .feedback {
+    font-size: 2rem;
+    display: block;
+    text-align: center; }
+  #survey .counter {
+    font-size: 2rem;
+    font-style: italic;
+    position: absolute;
+    top: 20px;
+    right: 20px; }
+  #survey .thanks {
+    font-size: 2rem; }
+  @media (min-width: 10px) and (orientation: portrait) {
+    #survey {
+      position: relative; }
+    #survey .counter {
+      position: relative;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 20px;
+      text-align: right; } }
+
+/**
+ * Entry point for application specific styling and overriding.
+ */
+.btn {
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Chrome/Safari/Opera */
+  -khtml-user-select: none;
+  /* Konqueror */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
+                                  not supported by any browser */
+  border: none; }
+
+html, body {
+  width: 100%;
+  height: 100%; }
+
+body {
+  text-align: center;
+  margin: 0 auto; }
+
+#interaction {
+  display: box;
+  box-pack: center;
+  box-align: center;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%; }
+  #interaction.stage1 {
+    background: #b2e95a; }
+  #interaction.stage2 {
+    background: #74983B; }
+  #interaction.stage3 {
+    background: #74988A; }
+  #interaction.stage4 {
+    background: #6184ab; }
+  #interaction.stage5 {
+    background: #000; }
+
+#buttons {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%; }
+
+#btn_2 {
+  top: -100px;
+  left: 75px; }
+
+#btn_3 {
+  left: 110px; }
+
+#btn_4 {
+  top: 100px;
+  left: 75px; }
+
+#btn_5 {
+  top: 100px;
+  left: -75px; }
+
+#btn_6 {
+  left: -110px; }
+
+#btn_7 {
+  top: -100px;
+  left: -75px; }
+
+.stage1 #btn_1 {
+  width: 100px;
+  height: 100px;
+  transform: scale(1);
+  transition: all 0.5s;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  position: absolute;
+  margin-top: -50px;
+  margin-left: -50px; }
+  .stage1 #btn_1.touched {
+    transform: scale(2);
+    transition: all 0.5s; }
+
+.stage1 #btn_2 {
+  width: 100px;
+  height: 100px;
+  transform: scale(1);
+  transition: all 0.5s;
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 50%;
+  position: absolute;
+  margin-top: -50px;
+  margin-left: -50px; }
+  .stage1 #btn_2.touched {
+    transform: scale(2);
+    transition: all 0.5s; }
+
+.stage1 #btn_3 {
+  width: 100px;
+  height: 100px;
+  transform: scale(1);
+  transition: all 0.5s;
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 50%;
+  position: absolute;
+  margin-top: -50px;
+  margin-left: -50px; }
+  .stage1 #btn_3.touched {
+    transform: scale(2);
+    transition: all 0.5s; }
+
+.stage1 #btn_4 {
+  width: 100px;
+  height: 100px;
+  transform: scale(1);
+  transition: all 0.5s;
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 50%;
+  position: absolute;
+  margin-top: -50px;
+  margin-left: -50px; }
+  .stage1 #btn_4.touched {
+    transform: scale(2);
+    transition: all 0.5s; }
+
+.stage1 #btn_5 {
+  width: 100px;
+  height: 100px;
+  transform: scale(1);
+  transition: all 0.5s;
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 50%;
+  position: absolute;
+  margin-top: -50px;
+  margin-left: -50px; }
+  .stage1 #btn_5.touched {
+    transform: scale(2);
+    transition: all 0.5s; }
+
+.stage1 #btn_6 {
+  width: 100px;
+  height: 100px;
+  transform: scale(1);
+  transition: all 0.5s;
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 50%;
+  position: absolute;
+  margin-top: -50px;
+  margin-left: -50px; }
+  .stage1 #btn_6.touched {
+    transform: scale(2);
+    transition: all 0.5s; }
+
+.stage1 #btn_7 {
+  width: 100px;
+  height: 100px;
+  transform: scale(1);
+  transition: all 0.5s;
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 50%;
+  position: absolute;
+  margin-top: -50px;
+  margin-left: -50px; }
+  .stage1 #btn_7.touched {
+    transform: scale(2);
+    transition: all 0.5s; }
+
+.stage2 #btn_1 {
+  width: 100px;
+  height: 100px;
+  transform: scale(1);
+  transition: all 3s;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  position: absolute;
+  margin-top: -50px;
+  margin-left: -50px; }
+  .stage2 #btn_1.touched {
+    transform: scale(2);
+    transition: all 3s; }
+
+.stage2 #btn_2 {
+  width: 100px;
+  height: 100px;
+  transform: scale(1);
+  transition: all 3s;
+  background-color: rgba(150, 152, 97, 0.5);
+  border-radius: 50%;
+  position: absolute;
+  margin-top: -50px;
+  margin-left: -50px; }
+  .stage2 #btn_2.touched {
+    transform: scale(2);
+    transition: all 3s; }
+
+.stage2 #btn_3 {
+  width: 100px;
+  height: 100px;
+  transform: scale(1);
+  transition: all 3s;
+  background-color: rgba(75, 97, 114, 0.5);
+  border-radius: 50%;
+  position: absolute;
+  margin-top: -50px;
+  margin-left: -50px; }
+  .stage2 #btn_3.touched {
+    transform: scale(2);
+    transition: all 3s; }
+
+.stage2 #btn_4 {
+  width: 100px;
+  height: 100px;
+  transform: scale(1);
+  transition: all 3s;
+  background-color: rgba(50, 64, 76, 0.5);
+  border-radius: 50%;
+  position: absolute;
+  margin-top: -50px;
+  margin-left: -50px; }
+  .stage2 #btn_4.touched {
+    transform: scale(2);
+    transition: all 3s; }
+
+.stage2 #btn_5 {
+  width: 100px;
+  height: 100px;
+  transform: scale(1);
+  transition: all 3s;
+  background-color: rgba(190, 178, 55, 0.5);
+  border-radius: 50%;
+  position: absolute;
+  margin-top: -50px;
+  margin-left: -50px; }
+  .stage2 #btn_5.touched {
+    transform: scale(2);
+    transition: all 3s; }
+
+.stage2 #btn_6 {
+  width: 100px;
+  height: 100px;
+  transform: scale(1);
+  transition: all 3s;
+  background-color: rgba(91, 118, 139, 0.5);
+  border-radius: 50%;
+  position: absolute;
+  margin-top: -50px;
+  margin-left: -50px; }
+  .stage2 #btn_6.touched {
+    transform: scale(2);
+    transition: all 3s; }
+
+.stage2 #btn_7 {
+  width: 100px;
+  height: 100px;
+  transform: scale(1);
+  transition: all 3s;
+  background-color: rgba(91, 118, 133, 0.2);
+  border-radius: 50%;
+  position: absolute;
+  margin-top: -50px;
+  margin-left: -50px; }
+  .stage2 #btn_7.touched {
+    transform: scale(2);
+    transition: all 3s; }
+
+.stage3 #btn_1 {
+  width: 100px;
+  height: 100px;
+  transform: scale(1);
+  transition: all 0.5s;
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 50%;
+  position: absolute;
+  margin-top: -50px;
+  margin-left: -50px; }
+  .stage3 #btn_1.touched {
+    transform: scale(2);
+    transition: all 0.5s; }
+
+.stage3 #btn_2 {
+  width: 100px;
+  height: 100px;
+  transform: scale(1);
+  transition: all 0.5s;
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 50%;
+  position: absolute;
+  margin-top: -50px;
+  margin-left: -50px; }
+  .stage3 #btn_2.touched {
+    transform: scale(2);
+    transition: all 0.5s; }
+
+.stage3 #btn_3 {
+  width: 100px;
+  height: 100px;
+  transform: scale(1);
+  transition: all 0.5s;
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 50%;
+  position: absolute;
+  margin-top: -50px;
+  margin-left: -50px; }
+  .stage3 #btn_3.touched {
+    transform: scale(2);
+    transition: all 0.5s; }
+
+.stage3 #btn_4 {
+  width: 100px;
+  height: 100px;
+  transform: scale(1);
+  transition: all 0.5s;
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 50%;
+  position: absolute;
+  margin-top: -50px;
+  margin-left: -50px; }
+  .stage3 #btn_4.touched {
+    transform: scale(2);
+    transition: all 0.5s; }
+
+.stage3 #btn_5 {
+  width: 100px;
+  height: 100px;
+  transform: scale(1);
+  transition: all 0.5s;
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 50%;
+  position: absolute;
+  margin-top: -50px;
+  margin-left: -50px; }
+  .stage3 #btn_5.touched {
+    transform: scale(2);
+    transition: all 0.5s; }
+
+.stage3 #btn_6 {
+  width: 100px;
+  height: 100px;
+  transform: scale(1);
+  transition: all 0.5s;
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 50%;
+  position: absolute;
+  margin-top: -50px;
+  margin-left: -50px; }
+  .stage3 #btn_6.touched {
+    transform: scale(2);
+    transition: all 0.5s; }
+
+.stage3 #btn_7 {
+  width: 100px;
+  height: 100px;
+  transform: scale(1);
+  transition: all 0.5s;
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 50%;
+  position: absolute;
+  margin-top: -50px;
+  margin-left: -50px; }
+  .stage3 #btn_7.touched {
+    transform: scale(2);
+    transition: all 0.5s; }
