@@ -1,13 +1,13 @@
-// Entry point for application specific styles
-
 @mixin basic_btn($speed, $color) {
-  	width: 300px;
-  	height: 300px;
+  	width: 100px;
+  	height: 100px;
   	transform: scale(1);
 	transition: all $speed;
 	background-color: $color;
 	border-radius: 50%;
 	position: absolute;
+	margin-top: -50px;
+	margin-left: -50px;
 	&:active {
 		transform: scale(2);
 		transition: all $speed;
@@ -56,40 +56,17 @@ body {
 
 #buttons {
 	position: relative;
-	top: 250px;
+	top: 500px;
+	left: 50%;
+	margin-right: -50%;
 }
 
-#btn_1 {
-	left: 300px;
-	top: 250px;
-}
-
-#btn_2 {
-	top: -50px;
-	left: 500px;
-}
-
-#btn_3 {
-	left: 600px;
-	top: 250px;
-}
-#btn_4 {
-	left: 500px;
-	top: 550px;
-}
-#btn_5 {
-	left: 100px;
-	top: 550px;
-}
-#btn_6 {
-	left: 0px;
-	top: 250px;
-}
-#btn_7 {
-	top: -50px;
-	left: 100px;
-
-}
+#btn_2 { top: -100px; left: 75px; }
+#btn_3 { left: 110px; }
+#btn_4 { top: 100px; left: 75px; }
+#btn_5 { top: 100px; left: -75px; }
+#btn_6 { left: -110px; }
+#btn_7 { top: -100px; left: -75px; }
 
 .stage1 {
 	#btn_1 { @include basic_btn(.5s, rgba(#fff, 0.5)); }
