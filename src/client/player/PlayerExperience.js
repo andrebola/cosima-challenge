@@ -1,20 +1,22 @@
 import * as soundworks from 'soundworks/client';
 import PlayerRenderer from './PlayerRenderer';
+import $ from 'jquery';
+window.$ = $;
 
 const View = soundworks.View;
 const audioContext = soundworks.audioContext;
 
 
 const viewTemplate = `
-  <div id="interaction" class="stage2" ontouchstart="">"
+  <div id="interaction" class="stage2" ontouchstart="">
 		<div id="buttons">
-			<a class="noselect"><div id="btn_1"></div></a>
-			<a class="noselect"><div id="btn_2"></div></a>
-			<a class="noselect"><div id="btn_3"></div></a>
-			<a class="noselect"><div id="btn_4"></div></a>
-			<a class="noselect"><div id="btn_5"></div></a>
-			<a class="noselect"><div id="btn_6"></div></a>
-			<a class="noselect"><div id="btn_7"></div></a>
+			<div id="btn_1" class="btn"></div>
+			<div id="btn_2" class="btn"></div>
+			<div id="btn_3" class="btn"></div>
+			<div id="btn_4" class="btn"></div>
+			<div id="btn_5" class="btn"></div>
+			<div id="btn_6" class="btn"></div>
+			<div id="btn_7" class="btn"></div>
 		</div>		
 	</div>
 `;
@@ -47,7 +49,14 @@ export default class PlayerExperience extends soundworks.Experience {
     this.show();
     var that = this;
     // If the user clicks the button the send notification to server
-    document.getElementById("button").addEventListener("click", function(){that.onTouchEnd()});
+    //document.getElementById("button").addEventListener("click", function(){that.onTouchEnd()});
+    $(".btn").on('mousedown touchstart', function() {
+        $(this).addClass("touched");
+    });
+    $(".btn").on('mouseup touchend', function() {
+        $(this).removeClass("touched");
+    });
+
    
     // When server send stop and start message execute corresponding functions
     this.receive('start', this.onStartMessage);
