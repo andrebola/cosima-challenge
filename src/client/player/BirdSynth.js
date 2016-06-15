@@ -61,7 +61,7 @@ export default class BirdSynth {
 
   trigger(energy) {
     this.engine.segmentIndex = getNearestIndexByValue(this.sortedMarkerIndices, energy, 3);
-    this.engine.gain = energy * energy;
+    //this.engine.gain = energy * energy;
     this.engine.trigger();
   }
 }
