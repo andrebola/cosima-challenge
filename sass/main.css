@@ -682,15 +682,13 @@ p, .normal {
   /* Non-prefixed version, currently
                                   not supported by any browser */ }
 
+html, body {
+  width: 100%;
+  height: 100%; }
+
 body {
   text-align: center;
   margin: 0 auto; }
-  body#stage1 {
-    background: #b2e95a; }
-  body#stage2 {
-    background: #74983B; }
-  body#stage3 {
-    background: #6184ab; }
 
 #interaction {
   display: box;
@@ -699,13 +697,16 @@ body {
   margin: 0 auto;
   width: 100%;
   height: 100%; }
+  #interaction.stage1 {
+    background: #b2e95a; }
+  #interaction.stage2 {
+    background: #74983B; }
+  #interaction.stage3 {
+    background: #6184ab; }
 
 #buttons {
   position: relative;
-  left: 50px;
-  top: 250px;
-  width: 100%;
-  height: 100%; }
+  top: 250px; }
 
 #btn_1 {
   left: 300px;
@@ -735,7 +736,7 @@ body {
   top: -50px;
   left: 100px; }
 
-#stage1 #btn_1 {
+.stage1 #btn_1 {
   width: 300px;
   height: 300px;
   transform: scale(1);
@@ -743,11 +744,11 @@ body {
   background-color: rgba(255, 255, 255, 0.5);
   border-radius: 50%;
   position: absolute; }
-  #stage1 #btn_1:active {
+  .stage1 #btn_1:active {
     transform: scale(2);
     transition: all 0.5s; }
 
-#stage1 #btn_2 {
+.stage1 #btn_2 {
   width: 300px;
   height: 300px;
   transform: scale(1);
@@ -755,11 +756,11 @@ body {
   background-color: rgba(255, 255, 255, 0);
   border-radius: 50%;
   position: absolute; }
-  #stage1 #btn_2:active {
+  .stage1 #btn_2:active {
     transform: scale(2);
     transition: all 0.5s; }
 
-#stage1 #btn_3 {
+.stage1 #btn_3 {
   width: 300px;
   height: 300px;
   transform: scale(1);
@@ -767,11 +768,11 @@ body {
   background-color: rgba(255, 255, 255, 0);
   border-radius: 50%;
   position: absolute; }
-  #stage1 #btn_3:active {
+  .stage1 #btn_3:active {
     transform: scale(2);
     transition: all 0.5s; }
 
-#stage1 #btn_4 {
+.stage1 #btn_4 {
   width: 300px;
   height: 300px;
   transform: scale(1);
@@ -779,11 +780,11 @@ body {
   background-color: rgba(255, 255, 255, 0);
   border-radius: 50%;
   position: absolute; }
-  #stage1 #btn_4:active {
+  .stage1 #btn_4:active {
     transform: scale(2);
     transition: all 0.5s; }
 
-#stage1 #btn_5 {
+.stage1 #btn_5 {
   width: 300px;
   height: 300px;
   transform: scale(1);
@@ -791,11 +792,11 @@ body {
   background-color: rgba(255, 255, 255, 0);
   border-radius: 50%;
   position: absolute; }
-  #stage1 #btn_5:active {
+  .stage1 #btn_5:active {
     transform: scale(2);
     transition: all 0.5s; }
 
-#stage1 #btn_6 {
+.stage1 #btn_6 {
   width: 300px;
   height: 300px;
   transform: scale(1);
@@ -803,11 +804,11 @@ body {
   background-color: rgba(255, 255, 255, 0);
   border-radius: 50%;
   position: absolute; }
-  #stage1 #btn_6:active {
+  .stage1 #btn_6:active {
     transform: scale(2);
     transition: all 0.5s; }
 
-#stage1 #btn_7 {
+.stage1 #btn_7 {
   width: 300px;
   height: 300px;
   transform: scale(1);
@@ -815,11 +816,11 @@ body {
   background-color: rgba(255, 255, 255, 0);
   border-radius: 50%;
   position: absolute; }
-  #stage1 #btn_7:active {
+  .stage1 #btn_7:active {
     transform: scale(2);
     transition: all 0.5s; }
 
-#stage2 #btn_1 {
+.stage2 #btn_1 {
   width: 300px;
   height: 300px;
   transform: scale(1);
@@ -827,11 +828,11 @@ body {
   background-color: rgba(255, 255, 255, 0.2);
   border-radius: 50%;
   position: absolute; }
-  #stage2 #btn_1:active {
+  .stage2 #btn_1:active {
     transform: scale(2);
     transition: all 3s; }
 
-#stage2 #btn_2 {
+.stage2 #btn_2 {
   width: 300px;
   height: 300px;
   transform: scale(1);
@@ -839,11 +840,11 @@ body {
   background-color: rgba(150, 152, 97, 0.5);
   border-radius: 50%;
   position: absolute; }
-  #stage2 #btn_2:active {
+  .stage2 #btn_2:active {
     transform: scale(2);
     transition: all 3s; }
 
-#stage2 #btn_3 {
+.stage2 #btn_3 {
   width: 300px;
   height: 300px;
   transform: scale(1);
@@ -851,11 +852,11 @@ body {
   background-color: rgba(75, 97, 114, 0.5);
   border-radius: 50%;
   position: absolute; }
-  #stage2 #btn_3:active {
+  .stage2 #btn_3:active {
     transform: scale(2);
     transition: all 3s; }
 
-#stage2 #btn_4 {
+.stage2 #btn_4 {
   width: 300px;
   height: 300px;
   transform: scale(1);
@@ -863,11 +864,11 @@ body {
   background-color: rgba(50, 64, 76, 0.5);
   border-radius: 50%;
   position: absolute; }
-  #stage2 #btn_4:active {
+  .stage2 #btn_4:active {
     transform: scale(2);
     transition: all 3s; }
 
-#stage2 #btn_5 {
+.stage2 #btn_5 {
   width: 300px;
   height: 300px;
   transform: scale(1);
@@ -875,11 +876,11 @@ body {
   background-color: rgba(190, 178, 55, 0.5);
   border-radius: 50%;
   position: absolute; }
-  #stage2 #btn_5:active {
+  .stage2 #btn_5:active {
     transform: scale(2);
     transition: all 3s; }
 
-#stage2 #btn_6 {
+.stage2 #btn_6 {
   width: 300px;
   height: 300px;
   transform: scale(1);
@@ -887,11 +888,11 @@ body {
   background-color: rgba(91, 118, 139, 0.5);
   border-radius: 50%;
   position: absolute; }
-  #stage2 #btn_6:active {
+  .stage2 #btn_6:active {
     transform: scale(2);
     transition: all 3s; }
 
-#stage2 #btn_7 {
+.stage2 #btn_7 {
   width: 300px;
   height: 300px;
   transform: scale(1);
@@ -899,11 +900,11 @@ body {
   background-color: rgba(91, 118, 133, 0.2);
   border-radius: 50%;
   position: absolute; }
-  #stage2 #btn_7:active {
+  .stage2 #btn_7:active {
     transform: scale(2);
     transition: all 3s; }
 
-#stage3 #btn_1 {
+.stage3 #btn_1 {
   width: 300px;
   height: 300px;
   transform: scale(1);
@@ -911,11 +912,11 @@ body {
   background-color: rgba(255, 255, 255, 0);
   border-radius: 50%;
   position: absolute; }
-  #stage3 #btn_1:active {
+  .stage3 #btn_1:active {
     transform: scale(2);
     transition: all 0.5s; }
 
-#stage3 #btn_2 {
+.stage3 #btn_2 {
   width: 300px;
   height: 300px;
   transform: scale(1);
@@ -923,11 +924,11 @@ body {
   background-color: rgba(255, 255, 255, 0);
   border-radius: 50%;
   position: absolute; }
-  #stage3 #btn_2:active {
+  .stage3 #btn_2:active {
     transform: scale(2);
     transition: all 0.5s; }
 
-#stage3 #btn_3 {
+.stage3 #btn_3 {
   width: 300px;
   height: 300px;
   transform: scale(1);
@@ -935,11 +936,11 @@ body {
   background-color: rgba(255, 255, 255, 0);
   border-radius: 50%;
   position: absolute; }
-  #stage3 #btn_3:active {
+  .stage3 #btn_3:active {
     transform: scale(2);
     transition: all 0.5s; }
 
-#stage3 #btn_4 {
+.stage3 #btn_4 {
   width: 300px;
   height: 300px;
   transform: scale(1);
@@ -947,11 +948,11 @@ body {
   background-color: rgba(255, 255, 255, 0);
   border-radius: 50%;
   position: absolute; }
-  #stage3 #btn_4:active {
+  .stage3 #btn_4:active {
     transform: scale(2);
     transition: all 0.5s; }
 
-#stage3 #btn_5 {
+.stage3 #btn_5 {
   width: 300px;
   height: 300px;
   transform: scale(1);
@@ -959,11 +960,11 @@ body {
   background-color: rgba(255, 255, 255, 0);
   border-radius: 50%;
   position: absolute; }
-  #stage3 #btn_5:active {
+  .stage3 #btn_5:active {
     transform: scale(2);
     transition: all 0.5s; }
 
-#stage3 #btn_6 {
+.stage3 #btn_6 {
   width: 300px;
   height: 300px;
   transform: scale(1);
@@ -971,11 +972,11 @@ body {
   background-color: rgba(255, 255, 255, 0);
   border-radius: 50%;
   position: absolute; }
-  #stage3 #btn_6:active {
+  .stage3 #btn_6:active {
     transform: scale(2);
     transition: all 0.5s; }
 
-#stage3 #btn_7 {
+.stage3 #btn_7 {
   width: 300px;
   height: 300px;
   transform: scale(1);
@@ -983,6 +984,6 @@ body {
   background-color: rgba(255, 255, 255, 0);
   border-radius: 50%;
   position: absolute; }
-  #stage3 #btn_7:active {
+  .stage3 #btn_7:active {
     transform: scale(2);
     transition: all 0.5s; }

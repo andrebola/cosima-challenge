@@ -6,8 +6,7 @@ const audioContext = soundworks.audioContext;
 
 
 const viewTemplate = `
-  body id="stage1" ontouchstart="">
-	<div id="interaction">
+  <div id="interaction" class="stage2" ontouchstart="">"
 		<div id="buttons">
 			<a class="noselect"><div id="btn_1"></div></a>
 			<a class="noselect"><div id="btn_2"></div></a>
@@ -18,7 +17,6 @@ const viewTemplate = `
 			<a class="noselect"><div id="btn_7"></div></a>
 		</div>		
 	</div>
-	</body>
 `;
 // this experience plays a sound when it starts, and plays another sound when
 // other clients join the experience
