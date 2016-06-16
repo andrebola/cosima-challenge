@@ -86,6 +86,7 @@ export default {
     // port listening for incomming messages
     receivePort: 57121,
     // IP of the remote application
+    //sendAddress: '10.179.64.75',
     sendAddress: '127.0.0.1',
     // port where the remote application is listening for messages
     sendPort: 57120,
