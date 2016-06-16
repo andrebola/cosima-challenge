@@ -15,7 +15,6 @@ import WindSynth from './WindSynth';
 import RainSynth from './RainSynth';
 
 const audioContext = soundworks.audioContext;
-const refreshTimeout = 200;
 const TouchSurface = soundworks.TouchSurface;
 
 
@@ -60,7 +59,6 @@ export default class PlayerExperience extends soundworks.Experience {
     this.onTouchStart = this.onTouchStart.bind(this);
     this.onAccelerationIncludingGravity = this.onAccelerationIncludingGravity.bind(this);
     this.onTimeout = this.onTimeout.bind(this);
-    this.refreshState = this.refreshState.bind(this);
 
     this._updateWind = this._updateWind.bind(this);
   }
@@ -90,7 +88,6 @@ export default class PlayerExperience extends soundworks.Experience {
       currentState: '',
     }
 
-    this.refreshState();
 
     this.view = this.createView();
 
@@ -136,10 +133,6 @@ export default class PlayerExperience extends soundworks.Experience {
 
     const surface = new TouchSurface(this.view.$el);
     surface.addListener('touchstart', this.onTouchStart);
-
-    // When server send stop and start message execute corresponding functions
-    this.receive('start', this.onStartMessage);
-    this.receive('stop', this.onStopMessage);
 
     // const that = this;
     // this.rainSynth.start();
@@ -245,7 +238,7 @@ export default class PlayerExperience extends soundworks.Experience {
     }
 
     const index = stateIndices[state];
-    this.send('state', index, state);
+    this.send('current:state', index, state);
 
     this.slowDeltaAccMagSum = 0;
     this.slowDynAccMagSum = 0;
@@ -253,13 +246,6 @@ export default class PlayerExperience extends soundworks.Experience {
     this.hasTouched = false;
 
     setTimeout(this.onTimeout, 1000 * statePeriod);
-  }
-
-  refreshState() {
-    this.state = 1;
-    this.send('current:state', this.state);
-
-    setTimeout(this.refreshState, refreshTimeout);
   }
 
   _updateWind(e) {
