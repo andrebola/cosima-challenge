@@ -21,15 +21,15 @@ export default class WindSynth {
     this.maxCutoff = 2000; // audioContext.sampleRate / 2;
     this.logCutoffRatio = Math.log(this.maxCutoff / this.minCutoff);
 
-    this.lowpass = audioContext.createBiquadFilter();
-    this.lowpass.connect(this.env);
+    this.bandpass = audioContext.createBiquadFilter();
+    this.bandpass.connect(this.env);
     // bandpass
-    this.lowpass.type = 'bandpass';
-    this.lowpass.frequency.value = this.minCutoff;
-    this.lowpass.Q.value = 16;
+    this.bandpass.type = 'bandpass';
+    this.bandpass.frequency.value = this.minCutoff;
+    this.bandpass.Q.value = 16;
 
     this.source = audioContext.createBufferSource();
-    this.source.connect(this.lowpass);
+    this.source.connect(this.bandpass);
     this.source.buffer = createWhiteNoiseBuffer(2, audioContext);
     this.source.loop = true;
     this.source.start(audioContext.currentTime);
@@ -45,6 +45,6 @@ export default class WindSynth {
 
   setCutoffFrequency(value) {
     const cutoffFrequency = this.minCutoff * Math.exp(this.logCutoffRatio * value);
-    this.lowpass.frequency.value = cutoffFrequency;
+    this.bandpass.frequency.value = cutoffFrequency;
   }
 }

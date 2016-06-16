@@ -12,6 +12,8 @@ const refreshTimeout = 1 * 1 * 100;
 //   return note + (12 * octava);
 // }
 
+let lastState = undefined;
+
 // server-side 'player' experience.
 export default class PlayerExperience extends Experience {
   constructor(clientType) {
@@ -45,6 +47,13 @@ export default class PlayerExperience extends Experience {
         this.onPlayerEnter(client);
         break;
     }
+
+    this.receive(client, 'state', (index, name) => {
+      if(index !== lastState) {
+        console.log('state:', name);
+        lastState = index;
+      }
+    })
   }
 
  formatClientInformations(client) {
@@ -81,10 +90,10 @@ export default class PlayerExperience extends Experience {
   processState() {
     for (let i = 0; i < states.length; i++) {
       if (this.players.size) {
-        const level = states[i] / this.players.size;
-        /*if (level >1) {
-
-        }*/
+        let level = states[i] / this.players.size;
+        if (level >1) {
+          level = 1;
+        }
         states[i] = states[i] / this.players.size;
       } else {
         states[i] = 0;

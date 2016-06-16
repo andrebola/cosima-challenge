@@ -8,8 +8,6 @@ export default class RainSynth {
     this.env.connect(output);
     this.env.gain.value = 1;
     this.env.gain.setValueAtTime(1, audioContext.currentTime);
-
-    // this.highpass = audioContext.createBiquad();
   }
 
   start() {
