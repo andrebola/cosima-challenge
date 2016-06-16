@@ -48,8 +48,7 @@ export default class PlayerExperience extends soundworks.Experience {
   }
 
   init() {
-    this.state = null;
-    this.stateInput = null;
+    this.state = 0;
 
     this.viewTemplate = viewTemplate;
     this.viewCtor = SegmentedView;
@@ -108,21 +107,17 @@ export default class PlayerExperience extends soundworks.Experience {
         let state = 'still';
 
         if (slowEnergy > 0.25) {
-          state = 'fast';
-        } else if (slowEnergy > 0.1) {
-          state = 'run';
+          state = 'thunder';
         } else if (slowEnergy > 0.02) {
-          state = 'walk';
+          state = 'rain';
         }
 
         if (state !== this.state) {
-          this.network.send('display', 'state', client.index, state);
           this.state = state;
         }
 
         const value = slowEnergy;
         this.renderer.setValue(value);
-        this.network.send('display', 'display', client.index, value);
       });
     }
 
