@@ -7,11 +7,11 @@
 */
 
 import * as soundworks from 'soundworks/client';
-import PlayerRenderer from './PlayerRenderer';
 import Circles from './Circles';
 import BirdSynth from './BirdSynth';
 
 const audioContext = soundworks.audioContext;
+const refreshTimeout = 100;
 const TouchSurface = soundworks.TouchSurface;
 
 const viewTemplate = `
@@ -58,6 +58,7 @@ export default class PlayerExperience extends soundworks.Experience {
     this.onTouchStart = this.onTouchStart.bind(this);
     this.onAccelerationIncludingGravity = this.onAccelerationIncludingGravity.bind(this);
     this.onTimeout = this.onTimeout.bind(this);
+    this.refreshState = this.refreshState.bind(this);
   }
 
   init() {
@@ -78,8 +79,15 @@ export default class PlayerExperience extends soundworks.Experience {
 
     this.viewTemplate = viewTemplate;
     this.viewCtor = soundworks.CanvasView;
-    this.viewEvents = { };
-    this.viewContent = { };
+    this.viewEvents = {
+      // 'touchstart #button': this.onTouchStart,
+    };
+    this.viewContent = {
+      currentState: '',
+    }
+
+    this.refreshState();
+
     this.view = this.createView();
 
     const output = audioContext.destination;
@@ -211,4 +219,12 @@ export default class PlayerExperience extends soundworks.Experience {
 
     setTimeout(this.onTimeout, 1000 * statePeriod);
   }
+
+  refreshState() {
+    this.state = 1;
+    this.send('current:state', this.state);
+
+    setTimeout(this.refreshState, refreshTimeout);
+  }
+
 }

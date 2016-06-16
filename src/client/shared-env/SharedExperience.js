@@ -21,7 +21,8 @@ export default class SharedExperience extends soundworks.Experience {
     super();
 
     this.platform = this.require('platform', { features: ['web-audio'] });
-    console.log('???');
+
+    this.updateStates = this.updateStates.bind(this);
   }
 
   init() {
@@ -39,9 +40,11 @@ export default class SharedExperience extends soundworks.Experience {
       this.init();
 
     this.show();
-    console.log('test');
     // handle click event from users
-    this.receive('cue', (cueIndex) => console.log(cueIndex));
-    this.receive('test', (val) => console.log(val));
+    this.receive('states:update', this.updateStates);
+  }
+
+  updateStates(values) {
+    console.log(values);
   }
 }

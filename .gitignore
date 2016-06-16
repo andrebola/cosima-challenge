@@ -5,6 +5,7 @@
 /server
 /client
 /common
+/shared
 
 # Application instance specific
 /logs
