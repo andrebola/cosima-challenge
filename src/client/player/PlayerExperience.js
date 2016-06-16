@@ -78,12 +78,6 @@ export default class PlayerExperience extends soundworks.Experience {
 	const surface = new TouchSurface(this.view.$el);
 	surface.addListener('touchstart', this.onTouchStart);
 
-    // If the user clicks the button the send notification to server
-    document.getElementById('button').addEventListener('click', () => {
-      const energy = Math.random();
-      this.birdSynth.trigger(energy);
-    });
-
     // When server send stop and start message execute corresponding functions
     this.receive('start', this.onStartMessage);
     this.receive('stop', this.onStopMessage);
@@ -91,5 +85,8 @@ export default class PlayerExperience extends soundworks.Experience {
 
   onTouchStart(touchId, normX, normY) {
     this.circlesRenderer.trigger(touchId, normX, normY, { duration: 0.4 });
+    
+    const energy = Math.random();
+    this.birdSynth.trigger(energy);
   }
 }
