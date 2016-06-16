@@ -12,15 +12,12 @@
 import { Renderer } from 'soundworks/client';
 
 const colorMap = [
-  '#9CC5C7', '#74988A', '#27092E', '#54797A'
+  '#9CC5C7', '#74988A', '#27092E', '#54797A', '#6184ab' 
 ];
 
 export default class BackgroundRenderer extends Renderer {
   constructor() {
     super();
-    
-    this.testValue = 0;
-    this.operator = 'asc';
   }
 
   update(dt) {

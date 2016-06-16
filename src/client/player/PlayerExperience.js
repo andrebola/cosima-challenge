@@ -1,14 +1,3 @@
-<<<<<<< HEAD
-=======
-/* Colors
-	Green - #b2e95a;
-	Muted Green - #74983B;
-	Grey / Blue - #74988A;
-	? - #6184ab;
-	Black - #000;
-*/
-
->>>>>>> origin/master
 import * as soundworks from 'soundworks/client';
 import Circles from './Circles';
 import RainDrops from './Rain';
@@ -18,15 +7,8 @@ import WindSynth from './WindSynth';
 import RainSynth from './RainSynth';
 
 const audioContext = soundworks.audioContext;
-const refreshTimeout = 100;
 const TouchSurface = soundworks.TouchSurface;
 
-<<<<<<< HEAD
-console.log(BackgroundRenderer);
-
-
-=======
->>>>>>> origin/master
 const viewTemplate = `
   <canvas class="background"></canvas>
   <div class="foreground">
@@ -43,7 +25,7 @@ const period = 0.05;
 const kGravityFilter = Math.exp(-2 * Math.PI * period / 0.1);
 
 const birdNames = ['alauda', 'larus', 'picus', 'turdus'];
-const stateNames = ['still', 'birds', 'wind', 'rain', 'thunder', 'lightning'];
+const stateNames = ['still', 'birds', 'wind', 'rain', 'thunder'];
 const stateIndices = {};
 
 for(let index = 0; index < stateNames.length; index++) {
@@ -67,12 +49,14 @@ export default class PlayerExperience extends soundworks.Experience {
     this.onTouchStart = this.onTouchStart.bind(this);
     this.onAccelerationIncludingGravity = this.onAccelerationIncludingGravity.bind(this);
     this.onTimeout = this.onTimeout.bind(this);
-    this.refreshState = this.refreshState.bind(this);
 
     this._updateWind = this._updateWind.bind(this);
   }
 
   init() {
+	this.state = 'still';
+	this.stateIndex = 0;
+	  
     this.lastAccX = undefined;
     this.lastAccY = undefined;
     this.lastAccY = undefined;
@@ -96,8 +80,6 @@ export default class PlayerExperience extends soundworks.Experience {
     this.viewContent = {
       currentState: '',
     }
-
-    this.refreshState();
 
     this.view = this.createView();
 
@@ -127,6 +109,7 @@ export default class PlayerExperience extends soundworks.Experience {
     this.show();
     
     this.bgRenderer = new BackgroundRenderer();
+    this.bgRenderer.setColor(4);
 	this.circlesRenderer = new Circles();
 	this.rainRenderer = new RainDrops();
     
@@ -147,28 +130,13 @@ export default class PlayerExperience extends soundworks.Experience {
     // When server send stop and start message execute corresponding functions
     this.receive('start', this.onStartMessage);
     this.receive('stop', this.onStopMessage);
-
-    // const that = this;
-    // this.rainSynth.start();
-
-    // (function triggerRainDrop() {
-	//   that.rainRenderer.trigger();
-    //   that.rainSynth.trigger();
-    //   setTimeout(triggerRainDrop, Math.random() * 150 + 100);
-    // }());
   }
   
   
 
   onTouchStart(touchId, normX, normY) {
     this.circlesRenderer.trigger(touchId, normX, normY, { duration: 1 });
-    
-    /*
-	Flash for thunder
-	Remove to (mag > 20)
-	
-	this.circlesRenderer.flash(touchId, { duration: 0.5, velocity: 2000, color: '#ffffff'}); 
-	*/
+
 	
     const energy = Math.random();
 
@@ -217,6 +185,14 @@ export default class PlayerExperience extends soundworks.Experience {
     this.lastAccX = accX;
     this.lastAccY = accY;
     this.lastAccZ = accZ;
+
+	const index = stateIndices[this.state];
+    if(index >= stateIndices.wind) {
+	    // this.slowDeltaAccMag => use for wind
+	    this.bgRenderer.setOpacity(1 - this.slowDeltaAccMag);
+    } else {
+	    this.bgRenderer.setOpacity(.75);
+    }	    
   }
 
   onTimeout() {
@@ -250,23 +226,40 @@ export default class PlayerExperience extends soundworks.Experience {
         }
       }
     }
-
+	
     const index = stateIndices[state];
     this.send('state', index, state);
+    
+	this.state = state;
+	this.stateIndex = index;
+   
+    
+    // UI on Phone
+    if(index >= stateIndices.thunder) {
+	    this.circlesRenderer.flash(1, { duration: 0.5, xV: .00001, yV: .00001, velocity: 2000, color: '#ffffff'}); 
+    }
+    
+    if(index >= stateIndices.rain) {
+	    this.rainIsActive = true;
+	    const that = this;
+		(function triggerRainDrop() {
+	    if(	    that.rainIsActive) {
+			that.rainRenderer.trigger();
+			that.rainSynth.trigger();
+			setTimeout(triggerRainDrop, Math.random() * 150 + 100);
+      		}
+    	}());
 
+    } else {
+	    this.rainIsActive = false;
+    }
+    
     this.slowDeltaAccMagSum = 0;
     this.slowDynAccMagSum = 0;
     this.slowAccCount = 0;
     this.hasTouched = false;
 
     setTimeout(this.onTimeout, 1000 * statePeriod);
-  }
-
-  refreshState() {
-    this.state = 1;
-    this.send('current:state', this.state);
-
-    setTimeout(this.refreshState, refreshTimeout);
   }
 
   _updateWind(e) {

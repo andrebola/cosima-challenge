@@ -17,7 +17,7 @@ class Rain {
     this.minVelocity = 50; // if gain is < 0.25 => constant growth
     this.friction = -50; // pixels / sec
 
-    this.setDuration(5);
+    this.setDuration(2);
 
     this.radius = 0;
     this.coordinates = {};
