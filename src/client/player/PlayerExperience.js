@@ -118,28 +118,24 @@ export default class PlayerExperience extends soundworks.Experience {
       this.init();
 
     this.show();
-    
+
     this.bgRenderer = new BackgroundRenderer();
 	this.circlesRenderer = new Circles();
 	this.rainRenderer = new RainDrops();
-    
+
     this.view.addRenderer(this.bgRenderer);
     this.view.addRenderer(this.circlesRenderer);
     this.view.addRenderer(this.rainRenderer);
-    
+
     this.rainRenderer.update();
-    
+
     this.view.setPreRender((ctx) => {
 	  ctx.fillStyle = '#000';
-      ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height); 
+      ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     });
 
     const surface = new TouchSurface(this.view.$el);
     surface.addListener('touchstart', this.onTouchStart);
-
-    // When server send stop and start message execute corresponding functions
-    this.receive('start', this.onStartMessage);
-    this.receive('stop', this.onStopMessage);
 
     // const that = this;
     // this.rainSynth.start();
@@ -150,19 +146,19 @@ export default class PlayerExperience extends soundworks.Experience {
     //   setTimeout(triggerRainDrop, Math.random() * 150 + 100);
     // }());
   }
-  
-  
+
+
 
   onTouchStart(touchId, normX, normY) {
     this.circlesRenderer.trigger(touchId, normX, normY, { duration: 1 });
-    
+
     /*
 	Flash for thunder
 	Remove to (mag > 20)
-	
-	this.circlesRenderer.flash(touchId, { duration: 0.5, velocity: 2000, color: '#ffffff'}); 
+
+	this.circlesRenderer.flash(touchId, { duration: 0.5, velocity: 2000, color: '#ffffff'});
 	*/
-	
+
     const energy = Math.random();
 
     this.birdSynth.trigger(energy);
@@ -245,7 +241,7 @@ export default class PlayerExperience extends soundworks.Experience {
     }
 
     const index = stateIndices[state];
-    this.send('state', index, state);
+    this.send('current:state', index, state);
 
     this.slowDeltaAccMagSum = 0;
     this.slowDynAccMagSum = 0;
@@ -266,6 +262,6 @@ export default class PlayerExperience extends soundworks.Experience {
     const value = e.target.value;
     this.windSynth.setCutoffFrequency(value);
   }
-  
-  
+
+
 }
