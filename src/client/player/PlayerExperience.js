@@ -1,39 +1,42 @@
+/* Colors
+	Green - #b2e95a;
+	Muted Green - #74983B;
+	Grey / Blue - #74988A; 
+	? - #6184ab; 
+	Black - #000;
+*/
+
 import * as soundworks from 'soundworks/client';
 import PlayerRenderer from './PlayerRenderer';
-import $ from 'jquery';
-window.$ = $;
+import Circles from './Circles';
+import BirdSynth from './BirdSynth';
 
-// inputs
-import Touch from './inputs/Touch';
-
-const SegmentedView = soundworks.SegmentedView;
 const audioContext = soundworks.audioContext;
 const refreshTimeout = 100;
+const TouchSurface = soundworks.TouchSurface;
+
 
 const viewTemplate = `
-  <div id="interaction" class="stage2" ontouchstart="">
-		<div id="buttons">
-			<div id="btn_1" class="btn"></div>
-			<div id="btn_2" class="btn"></div>
-			<div id="btn_3" class="btn"></div>
-			<div id="btn_4" class="btn"></div>
-			<div id="btn_5" class="btn"></div>
-			<div id="btn_6" class="btn"></div>
-			<div id="btn_7" class="btn"></div>
-		</div>
-	</div>
+  <canvas class="background"></canvas>
+  <div class="foreground">
+    <div class="section-top flex-middle"></div>
+    <div class="section-center flex-center">
+    <div class="section-bottom flex-center">
+  </div>
 `;
+
+const birdNames = ['alauda', 'larus', 'picus', 'turdus'];
+
 // this experience plays a sound when it starts, and plays another sound when
 // other clients join the experience
 export default class PlayerExperience extends soundworks.Experience {
-  constructor(assetsDomain, audioFiles) {
+  constructor(assetsDomain, files) {
     super();
 
     this.platform = this.require('platform', { showDialog: true });
+    this.loader = this.require('loader', { files, assetsDomain });
 
     this.onTouchStart = this.onTouchStart.bind(this);
-    this.onStateUpdate = this.onStateUpdate.bind(this);
-    this.onInputTrigger = this.onInputTrigger.bind(this);
     this.refreshState = this.refreshState.bind(this);
   }
 
@@ -42,9 +45,9 @@ export default class PlayerExperience extends soundworks.Experience {
     this.stateInput = null;
 
     this.viewTemplate = viewTemplate;
-    this.viewCtor = SegmentedView;
+    this.viewCtor = soundworks.CanvasView;
     this.viewEvents = {
-      'touchstart #button': this.onTouchStart,
+      // 'touchstart #button': this.onTouchStart,
     };
     this.viewContent = {
       currentState: '',
@@ -53,6 +56,11 @@ export default class PlayerExperience extends soundworks.Experience {
     this.refreshState();
 
     this.view = this.createView();
+
+    const output = audioContext.destination;
+    const birdIndex = Math.floor(birdNames.length * Math.random());
+    const { audio, markers } = this.loader.get(birdNames[birdIndex]);
+    this.birdSynth = new BirdSynth(output, audio, markers);
   }
 
   start() {
@@ -63,68 +71,27 @@ export default class PlayerExperience extends soundworks.Experience {
 
     this.show();
 
-    // if the user clicks the button the send notification to server
-    $(".btn").on('mousedown touchstart', function() {
-      $(this).addClass("touched");
+    this.circlesRenderer = new Circles();
+    this.view.addRenderer(this.circlesRenderer);
+    
+    this.view.setPreRender((ctx) => {
+	  ctx.fillStyle = '#74983B';
+      ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height); 
     });
+    
+	const surface = new TouchSurface(this.view.$el);
+	surface.addListener('touchstart', this.onTouchStart);
 
-    $(".btn").on('mouseup touchend', function() {
-      $(this).removeClass("touched");
-    });
-
-
-
-    this.send('require:current:state');
-    this.receive('update:state', this.onStateUpdate);
-
+    // When server send stop and start message execute corresponding functions
+    this.receive('start', this.onStartMessage);
+    this.receive('stop', this.onStopMessage);
   }
 
-  onTouchStart() {
-    this.send('input:change');
-  }
-
-  onStateUpdate(stateName) {
-    this.state = stateName;
-    let stateInput = null;
-    console.log('state:', this.state);
-
-    if (this.stateInput) {
-      this.stateInput.stop();
-      this.stateInput.removeListener(this.onInput);
-    }
-
-    switch (stateName) {
-      case 'sunny':
-        this.stateInput = new Touch(this.view.$el);
-        break;
-      case 'wind1':
-        this.stateInput = new TouchAndHold(this.view.$el);
-        break;
-      case 'wind2':
-        // this.stateInput = new Roll();
-        break;
-      case 'rain':
-        // this.stateInput = new Shake(200);
-        break;
-      case 'thunder':
-        // this.stateInput = new Shake(400);
-        break;
-      // case 'waves':
-      //   stateInput = new Touch();
-      //   break;
-    }
-
-    this.stateInput.addListener(this.onInputTrigger);
-    this.stateInput.start();
-
-    this.view.content.currentState = this.state;
-    this.view.render('#label');
-  }
-
-  onInputTrigger(...params) {
-    //this.send('input:change', this.state, ...params);
-    console.log('input here!', params);
-    // maybe update view with `params`
+  onTouchStart(touchId, normX, normY) {
+    this.circlesRenderer.trigger(touchId, normX, normY, { duration: 0.4 });
+    
+    const energy = Math.random();
+    this.birdSynth.trigger(energy);
   }
   
   refreshState() {
