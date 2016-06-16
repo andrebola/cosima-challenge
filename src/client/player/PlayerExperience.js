@@ -1,7 +1,11 @@
 import * as soundworks from 'soundworks/client';
 import PlayerRenderer from './PlayerRenderer';
+<<<<<<< HEAD
 import $ from 'jquery';
 window.$ = $;
+=======
+import BirdSynth from './BirdSynth';
+>>>>>>> test-birds
 
 // inputs
 import Touch from './inputs/Touch';
@@ -23,13 +27,17 @@ const viewTemplate = `
 		</div>
 	</div>
 `;
+
+const birdNames = ['alauda', 'larus', 'picus', 'turdus'];
+
 // this experience plays a sound when it starts, and plays another sound when
 // other clients join the experience
 export default class PlayerExperience extends soundworks.Experience {
-  constructor(assetsDomain, audioFiles) {
+  constructor(assetsDomain, files) {
     super();
 
     this.platform = this.require('platform', { showDialog: true });
+    this.loader = this.require('loader', { files, assetsDomain });
 
     this.onTouchStart = this.onTouchStart.bind(this);
     this.onStateUpdate = this.onStateUpdate.bind(this);
@@ -50,6 +58,11 @@ export default class PlayerExperience extends soundworks.Experience {
     }
 
     this.view = this.createView();
+
+    const output = audioContext.destination;
+    const birdIndex = Math.floor(birdNames.length * Math.random());
+    const { audio, markers } = this.loader.get(birdNames[birdIndex]);
+    this.birdSynth = new BirdSynth(output, audio, markers);
   }
 
   start() {
@@ -60,6 +73,7 @@ export default class PlayerExperience extends soundworks.Experience {
 
     this.show();
 
+<<<<<<< HEAD
     // if the user clicks the button the send notification to server
     $(".btn").on('mousedown touchstart', function() {
       $(this).addClass("touched");
@@ -74,6 +88,25 @@ export default class PlayerExperience extends soundworks.Experience {
     this.send('require:current:state');
     this.receive('update:state', this.onStateUpdate);
 
+=======
+    // If the user clicks the button the send notification to server
+    document.getElementById('button').addEventListener('click', () => {
+      const energy = Math.random();
+      this.birdSynth.trigger(energy);
+    });
+
+    // When server send stop and start message execute corresponding functions
+    this.receive('start', this.onStartMessage);
+    this.receive('stop', this.onStopMessage);
+  }
+/**
+   * Callback to be executed when receiving the `start` message from the server.
+   */
+  onStartMessage() {
+    // start synth and change background color
+    this.view.$el.classList.add('active');
+    this.wait = false;
+>>>>>>> test-birds
   }
 
   onTouchStart() {
