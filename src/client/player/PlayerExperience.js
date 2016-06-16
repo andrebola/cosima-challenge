@@ -20,7 +20,7 @@ const viewTemplate = `
 			<div id="btn_5" class="btn"></div>
 			<div id="btn_6" class="btn"></div>
 			<div id="btn_7" class="btn"></div>
-		</div>		
+		</div>
 	</div>
 `;
 // this experience plays a sound when it starts, and plays another sound when
@@ -60,17 +60,16 @@ export default class PlayerExperience extends soundworks.Experience {
 
     this.show();
 
-    var that = this;
-    // If the user clicks the button the send notification to server
-    //document.getElementById("button").addEventListener("click", function(){that.onTouchEnd()});
+    // if the user clicks the button the send notification to server
     $(".btn").on('mousedown touchstart', function() {
-        $(this).addClass("touched");
-    });
-    $(".btn").on('mouseup touchend', function() {
-        $(this).removeClass("touched");
+      $(this).addClass("touched");
     });
 
-   
+    $(".btn").on('mouseup touchend', function() {
+      $(this).removeClass("touched");
+    });
+
+
 
     this.send('require:current:state');
     this.receive('update:state', this.onStateUpdate);
@@ -86,34 +85,34 @@ export default class PlayerExperience extends soundworks.Experience {
     let stateInput = null;
     console.log('state:', this.state);
 
-    // if (this.stateInput) {
-    //   this.stateInput.stop();
-    //   this.stateInput.removeListener(this.onInput);
-    // }
+    if (this.stateInput) {
+      this.stateInput.stop();
+      this.stateInput.removeListener(this.onInput);
+    }
 
-    // switch (stateName) {
-    //   case 'sunny':
-    //     this.stateInput = new Touch(this.view.$el);
-    //     break;
-    //   case 'wind1':
-    //     this.stateInput = new TouchAndHold(this.view.$el);
-    //     break;
-    //   case 'wind2':
-    //     // this.stateInput = new Roll();
-    //     break;
-    //   case 'rain':
-    //     // this.stateInput = new Shake(200);
-    //     break;
-    //   case 'thunder':
-    //     // this.stateInput = new Shake(400);
-    //     break;
-    //   // case 'waves':
-    //   //   stateInput = new Touch();
-    //   //   break;
-    // }
+    switch (stateName) {
+      case 'sunny':
+        this.stateInput = new Touch(this.view.$el);
+        break;
+      case 'wind1':
+        this.stateInput = new TouchAndHold(this.view.$el);
+        break;
+      case 'wind2':
+        // this.stateInput = new Roll();
+        break;
+      case 'rain':
+        // this.stateInput = new Shake(200);
+        break;
+      case 'thunder':
+        // this.stateInput = new Shake(400);
+        break;
+      // case 'waves':
+      //   stateInput = new Touch();
+      //   break;
+    }
 
-    // this.stateInput.addListener(this.onInputTrigger);
-    // this.stateInput.start();
+    this.stateInput.addListener(this.onInputTrigger);
+    this.stateInput.start();
 
     this.view.content.currentState = this.state;
     this.view.render('#label');
