@@ -9,6 +9,7 @@
 import * as soundworks from 'soundworks/client';
 import PlayerRenderer from './PlayerRenderer';
 import Circles from './Circles';
+import BirdSynth from './BirdSynth';
 
 const audioContext = soundworks.audioContext;
 const TouchSurface = soundworks.TouchSurface;
@@ -22,13 +23,17 @@ const viewTemplate = `
     <div class="section-bottom flex-center">
   </div>
 `;
+
+const birdNames = ['alauda', 'larus', 'picus', 'turdus'];
+
 // this experience plays a sound when it starts, and plays another sound when
 // other clients join the experience
 export default class PlayerExperience extends soundworks.Experience {
-  constructor(assetsDomain, audioFiles) {
+  constructor(assetsDomain, files) {
     super();
 
     this.platform = this.require('platform', { showDialog: true });
+    this.loader = this.require('loader', { files, assetsDomain });
 
     this.onTouchStart = this.onTouchStart.bind(this);
   }
@@ -47,6 +52,11 @@ export default class PlayerExperience extends soundworks.Experience {
     }
 
     this.view = this.createView();
+
+    const output = audioContext.destination;
+    const birdIndex = Math.floor(birdNames.length * Math.random());
+    const { audio, markers } = this.loader.get(birdNames[birdIndex]);
+    this.birdSynth = new BirdSynth(output, audio, markers);
   }
 
   start() {
@@ -67,6 +77,16 @@ export default class PlayerExperience extends soundworks.Experience {
     
 	const surface = new TouchSurface(this.view.$el);
 	surface.addListener('touchstart', this.onTouchStart);
+
+    // If the user clicks the button the send notification to server
+    document.getElementById('button').addEventListener('click', () => {
+      const energy = Math.random();
+      this.birdSynth.trigger(energy);
+    });
+
+    // When server send stop and start message execute corresponding functions
+    this.receive('start', this.onStartMessage);
+    this.receive('stop', this.onStopMessage);
   }
 
   onTouchStart(touchId, normX, normY) {
