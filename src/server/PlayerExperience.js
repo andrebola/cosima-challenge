@@ -84,9 +84,9 @@ export default class PlayerExperience extends Experience {
     for (let i = 0; i < states.length; i++) {
       if (this.players.size) {
         const level = states[i] / this.players.size;
-        /*if (level >1) {
-
-        }*/
+        if (level >1) {
+          level = 1;
+        }
         states[i] = states[i] / this.players.size;
       } else {
         states[i] = 0;
