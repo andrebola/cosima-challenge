@@ -127,9 +127,14 @@ export default class PlayerExperience extends soundworks.Experience {
     const surface = new TouchSurface(this.view.$el);
     surface.addListener('touchstart', this.onTouchStart);
 
-    // When server send stop and start message execute corresponding functions
-    this.receive('start', this.onStartMessage);
-    this.receive('stop', this.onStopMessage);
+    // const that = this;
+    // this.rainSynth.start();
+
+    // (function triggerRainDrop() {
+	//   that.rainRenderer.trigger();
+    //   that.rainSynth.trigger();
+    //   setTimeout(triggerRainDrop, Math.random() * 150 + 100);
+    // }());
   }
   
   
@@ -228,7 +233,8 @@ export default class PlayerExperience extends soundworks.Experience {
     }
 	
     const index = stateIndices[state];
-    this.send('state', index, state);
+
+    this.send('current:state', index, state);
     
 	this.state = state;
 	this.stateIndex = index;
@@ -249,7 +255,6 @@ export default class PlayerExperience extends soundworks.Experience {
 			setTimeout(triggerRainDrop, Math.random() * 150 + 100);
       		}
     	}());
-
     } else {
 	    this.rainIsActive = false;
     }
