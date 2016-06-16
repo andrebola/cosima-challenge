@@ -1,20 +1,18 @@
 /* Colors
 	Green - #b2e95a;
 	Muted Green - #74983B;
-	Grey / Blue - #74988A; 
-	? - #6184ab; 
+	Grey / Blue - #74988A;
+	? - #6184ab;
 	Black - #000;
 */
 
 import * as soundworks from 'soundworks/client';
-import PlayerRenderer from './PlayerRenderer';
 import Circles from './Circles';
 import BirdSynth from './BirdSynth';
 
 const audioContext = soundworks.audioContext;
 const refreshTimeout = 100;
 const TouchSurface = soundworks.TouchSurface;
-
 
 const viewTemplate = `
   <canvas class="background"></canvas>
@@ -52,7 +50,7 @@ export default class PlayerExperience extends soundworks.Experience {
     this.viewContent = {
       currentState: '',
     }
-    
+
     this.refreshState();
 
     this.view = this.createView();
@@ -73,14 +71,14 @@ export default class PlayerExperience extends soundworks.Experience {
 
     this.circlesRenderer = new Circles();
     this.view.addRenderer(this.circlesRenderer);
-    
+
     this.view.setPreRender((ctx) => {
 	  ctx.fillStyle = '#74983B';
-      ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height); 
+      ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     });
-    
-	const surface = new TouchSurface(this.view.$el);
-	surface.addListener('touchstart', this.onTouchStart);
+
+	  const surface = new TouchSurface(this.view.$el);
+	  surface.addListener('touchstart', this.onTouchStart);
 
     // When server send stop and start message execute corresponding functions
     this.receive('start', this.onStartMessage);
@@ -89,15 +87,15 @@ export default class PlayerExperience extends soundworks.Experience {
 
   onTouchStart(touchId, normX, normY) {
     this.circlesRenderer.trigger(touchId, normX, normY, { duration: 0.4 });
-    
+
     const energy = Math.random();
     this.birdSynth.trigger(energy);
   }
-  
+
   refreshState() {
     this.state = 1;
     this.send('current:state', this.state);
-    
+
     setTimeout(this.refreshState, refreshTimeout);
   }
 

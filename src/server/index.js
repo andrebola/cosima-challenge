@@ -3,7 +3,17 @@ import * as soundworks from 'soundworks/server';
 import PlayerExperience from './PlayerExperience';
 import defaultConfig from './config/default';
 
-// import $
+import { MovingAverage, MovingAverageVector } from '../shared/MovingAverage';
+
+const ma = new MovingAverage(4);
+
+// (function run() {
+//   const rand = Math.random();
+//   const ret = ma.process(rand);
+//   console.log(ret);
+
+//   setTimeout(run, 1000);
+// }());
 
 let config = null;
 
@@ -42,3 +52,5 @@ const experience = new PlayerExperience(['player', 'shared-env']);
 
 // start application
 soundworks.server.start();
+
+

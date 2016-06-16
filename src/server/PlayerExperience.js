@@ -31,10 +31,9 @@ export default class PlayerExperience extends Experience {
 
   // if anything needs to append when the experience starts
   start() {
-
     this.osc.receive('/test', function(data){
       console.log(data);
-    })
+    });
   }
   // if anything needs to happen when a client enters the performance (*i.e.*
   // starts the experience on the client side), write it in the `enter` method
@@ -112,19 +111,20 @@ export default class PlayerExperience extends Experience {
       if (this.players.size) {
         const level = states[i] / this.players.size;
         /*if (level >1) {
-        
+
         }*/
         states[i] = states[i] / this.players.size;
       } else {
         states[i] = 0;
       }
     }
-    this.broadcast('shared-env', null, 'states', states);
-    this.osc.send('/my/', [states]);
-    for (let i = 0; i < states.length; i++) {
+
+    this.broadcast('shared-env', null, 'states:update', states);
+    this.osc.send('/states/update', states);
+
+    for (let i = 0; i < states.length; i++)
       states[i] = 0;
-    }
-    
+
     setTimeout(this.processState, refreshTimeout);
   }
 
