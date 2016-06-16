@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 /* Colors
 	Green - #b2e95a;
 	Muted Green - #74983B;
@@ -8,7 +6,6 @@
 	Black - #000;
 */
 
->>>>>>> origin/master
 import * as soundworks from 'soundworks/client';
 import Circles from './Circles';
 import RainDrops from './Rain';
@@ -21,12 +18,8 @@ const audioContext = soundworks.audioContext;
 const refreshTimeout = 100;
 const TouchSurface = soundworks.TouchSurface;
 
-<<<<<<< HEAD
-console.log(BackgroundRenderer);
 
 
-=======
->>>>>>> origin/master
 const viewTemplate = `
   <canvas class="background"></canvas>
   <div class="foreground">
