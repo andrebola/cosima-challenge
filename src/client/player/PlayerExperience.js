@@ -15,7 +15,6 @@ import WindSynth from './WindSynth';
 import RainSynth from './RainSynth';
 
 const audioContext = soundworks.audioContext;
-const refreshTimeout = 100;
 const TouchSurface = soundworks.TouchSurface;
 
 
@@ -60,7 +59,6 @@ export default class PlayerExperience extends soundworks.Experience {
     this.onTouchStart = this.onTouchStart.bind(this);
     this.onAccelerationIncludingGravity = this.onAccelerationIncludingGravity.bind(this);
     this.onTimeout = this.onTimeout.bind(this);
-    this.refreshState = this.refreshState.bind(this);
 
     this._updateWind = this._updateWind.bind(this);
   }
@@ -90,7 +88,6 @@ export default class PlayerExperience extends soundworks.Experience {
       currentState: '',
     }
 
-    this.refreshState();
 
     this.view = this.createView();
 
@@ -249,13 +246,6 @@ export default class PlayerExperience extends soundworks.Experience {
     this.hasTouched = false;
 
     setTimeout(this.onTimeout, 1000 * statePeriod);
-  }
-
-  refreshState() {
-    this.state = 1;
-    this.send('current:state', this.state);
-
-    setTimeout(this.refreshState, refreshTimeout);
   }
 
   _updateWind(e) {
