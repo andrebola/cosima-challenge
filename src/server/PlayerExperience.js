@@ -14,6 +14,8 @@ const transitionDuration = stateDuration / 3;
 //   return note + (12 * octava);
 // }
 
+let lastState = undefined;
+
 // server-side 'player' experience.
 export default class PlayerExperience extends Experience {
   constructor(clientType) {
@@ -48,6 +50,13 @@ export default class PlayerExperience extends Experience {
         this.onPlayerEnter(client);
         break;
     }
+
+    this.receive(client, 'state', (index, name) => {
+      if(index !== lastState) {
+        console.log('state:', name);
+        lastState = index;
+      }
+    })
   }
 
  formatClientInformations(client) {
@@ -116,13 +125,13 @@ export default class PlayerExperience extends Experience {
     const nbrCuesPerState = 4;
     const cueDuration = stateDuration / nbrCuesPerState;
 
-    console.log(stateDuration, cueDuration, transitionDuration);
+    //console.log(stateDuration, cueDuration, transitionDuration);
 
     for (let i = 0; i < nbrCuesPerState; i++) {
       (function(i) {
         const cueIndex = (nbrCuesPerState * that.currentState) + i;
         setTimeout(function() {
-          console.log('cue', cueIndex);
+          //console.log('cue', cueIndex);
           that.broadcast('shared-env', null, 'cue', cueIndex);
         }, cueDuration * i);
       }(i));

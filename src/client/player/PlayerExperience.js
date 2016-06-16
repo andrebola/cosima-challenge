@@ -1,28 +1,40 @@
+/* Colors
+	Green - #b2e95a;
+	Muted Green - #74983B;
+	Grey / Blue - #74988A;
+	? - #6184ab;
+	Black - #000;
+*/
+
 import * as soundworks from 'soundworks/client';
 import PlayerRenderer from './PlayerRenderer';
+import Circles from './Circles';
 import BirdSynth from './BirdSynth';
 
-// inputs
-import Touch from './inputs/Touch';
-
-const SegmentedView = soundworks.SegmentedView;
 const audioContext = soundworks.audioContext;
+const TouchSurface = soundworks.TouchSurface;
 
 const viewTemplate = `
-  <div id="interaction" class="stage2" ontouchstart="">
-  <div id="buttons">
-  <div id="btn_1" class="btn"></div>
-  <div id="btn_2" class="btn"></div>
-  <div id="btn_3" class="btn"></div>
-  <div id="btn_4" class="btn"></div>
-  <div id="btn_5" class="btn"></div>
-  <div id="btn_6" class="btn"></div>
-  <div id="btn_7" class="btn"></div>
-  </div>
+  <canvas class="background"></canvas>
+  <div class="foreground">
+    <div class="section-top flex-middle"></div>
+    <div class="section-center flex-center">
+    <div class="section-bottom flex-center">
   </div>
 `;
 
+const statePeriod = 0.2;
+const period = 0.05;
+const kGravityFilter = Math.exp(-2 * Math.PI * period / 0.1);
+
 const birdNames = ['alauda', 'larus', 'picus', 'turdus'];
+const stateNames = ['still', 'birds', 'wind', 'rain', 'thunder', 'lightning'];
+const stateIndices = {};
+
+for(let index = 0; index < stateNames.length; index++) {
+  const name = stateNames[index];
+  stateIndices[name] = index;
+}
 
 // this experience plays a sound when it starts, and plays another sound when
 // other clients join the experience
@@ -44,23 +56,30 @@ export default class PlayerExperience extends soundworks.Experience {
     });
 
     this.onTouchStart = this.onTouchStart.bind(this);
+    this.onAccelerationIncludingGravity = this.onAccelerationIncludingGravity.bind(this);
     this.onTimeout = this.onTimeout.bind(this);
   }
 
   init() {
-    this.state = 0;
+    this.lastAccX = undefined;
+    this.lastAccY = undefined;
+    this.lastAccY = undefined;
+    this.lastDynAccX = 0;
+    this.lastDynAccY = 0;
+    this.lastDynAccZ = 0;
+    this.accMag = 1;
+    this.dynAccMag = 0;
+    this.slowDeltaAccMag = 0;
+    this.slowDeltaAccMagSum = 0;
+    this.slowDynAccMag = 0;
+    this.slowDynAccMagSum = 0;
+    this.slowAccCount = 0;
+    this.hasTouched = false;
 
     this.viewTemplate = viewTemplate;
-    this.viewCtor = SegmentedView;
-
-    this.viewEvents = {
-      'touchstart #button': this.onTouchStart,
-    };
-
-    this.viewContent = {
-      currentState: '',
-    }
-
+    this.viewCtor = soundworks.CanvasView;
+    this.viewEvents = { };
+    this.viewContent = { };
     this.view = this.createView();
 
     const output = audioContext.destination;
@@ -69,59 +88,10 @@ export default class PlayerExperience extends soundworks.Experience {
     this.birdSynth = new BirdSynth(output, audio, markers);
 
     if (this.motionInput.isAvailable('accelerationIncludingGravity')) {
-      this.motionInput.addListener('accelerationIncludingGravity', (acc) => {
-        const accX = acc[0] / 9.81;
-        const accY = acc[1] / 9.81;
-        const accZ = acc[2] / 9.81;
-        const accMag = Math.sqrt(accX * accX + accY * accY + accZ * accZ);
-
-        const lastAcc = this.lastAcc;
-        const lastDynAcc = this.lastDynAcc;
-        const dynAccX = (1 + kGravityFilter) * 0.5 * (accX - lastAcc[0]) + kGravityFilter * lastDynAcc[0];
-        const dynAccY = (1 + kGravityFilter) * 0.5 * (accY - lastAcc[1]) + kGravityFilter * lastDynAcc[1];
-        const dynAccZ = (1 + kGravityFilter) * 0.5 * (accZ - lastAcc[2]) + kGravityFilter * lastDynAcc[2];
-        const dynAccMag = Math.sqrt(dynAccX * dynAccX + dynAccY * dynAccY + dynAccZ * dynAccZ);
-
-        this.lastAcc[0] = accX;
-        this.lastAcc[1] = accY;
-        this.lastAcc[2] = accZ;
-
-        this.lastDynAcc[0] = dynAccX;
-        this.lastDynAcc[1] = dynAccY;
-        this.lastDynAcc[2] = dynAccZ;
-
-        this.accMag = accMag;
-        this.slowEnergy = 0.90 * this.slowEnergy + 0.1 * dynAccMag;
-      });
+      this.motionInput.addListener('accelerationIncludingGravity', this.onAccelerationIncludingGravity);
     }
 
-    if (this.motionInput.isAvailable('rotationRate')) {
-      this.motionInput.addListener('rotationRate', (gyro) => {
-        const now = audioContext.currentTime;
-        const gyroX = gyro[0];
-        const gyroY = gyro[1];
-        const gyroZ = gyro[2];
-        const absGyroZ = Math.abs(gyroZ);
-        const accMag = this.accMag;
-        const slowEnergy = this.slowEnergy;
-        let state = 'still';
-
-        if (slowEnergy > 0.25) {
-          state = 'thunder';
-        } else if (slowEnergy > 0.02) {
-          state = 'rain';
-        }
-
-        if (state !== this.state) {
-          this.state = state;
-        }
-
-        const value = slowEnergy;
-        this.renderer.setValue(value);
-      });
-    }
-
-    setTimeout(this.onTimeout, 100);
+    setTimeout(this.onTimeout, 1000 * statePeriod);
   }
 
   start() {
@@ -132,18 +102,113 @@ export default class PlayerExperience extends soundworks.Experience {
 
     this.show();
 
-    // document.getElementById('button').addEventListener('click', () => {
-    //   const energy = Math.random();
-    //   this.birdSynth.trigger(energy);
-    // });
+    this.circlesRenderer = new Circles();
+    this.view.addRenderer(this.circlesRenderer);
+
+    this.view.setPreRender((ctx) => {
+      ctx.fillStyle = '#74983B';
+      ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    });
+
+    const surface = new TouchSurface(this.view.$el);
+    surface.addListener('touchstart', this.onTouchStart);
+
+    // When server send stop and start message execute corresponding functions
+    this.receive('start', this.onStartMessage);
+    this.receive('stop', this.onStopMessage);
   }
 
-  onTouchStart() {
-    this.send('input:change');
+  onTouchStart(touchId, normX, normY) {
+    this.circlesRenderer.trigger(touchId, normX, normY, { duration: 0.4 });
+
+    const energy = Math.random();
+    this.birdSynth.trigger(energy);
+    this.hasTouched = true;
+  }
+
+  onAccelerationIncludingGravity(acc) {
+    const accX = acc[0] / 9.81;
+    const accY = acc[1] / 9.81;
+    const accZ = acc[2] / 9.81;
+    const lastAccX = this.lastAccX;
+
+    if(lastAccX !== undefined) {
+      const lastAccY = this.lastAccY;
+      const lastAccZ = this.lastAccZ;
+      const lastDynAccX = this.lastDynAccX;
+      const lastDynAccY = this.lastDynAccY;
+      const lastDynAccZ = this.lastDynAccZ;
+      const accMag = Math.sqrt(accX * accX + accY * accY + accZ * accZ);
+      const deltaAccX = accX - lastAccX;
+      const deltaAccY = accY - lastAccY;
+      const deltaAccZ = accZ - lastAccZ;
+      const deltaAccMag = Math.sqrt(deltaAccX * deltaAccX + deltaAccY * deltaAccY /*+ deltaAccZ * deltaAccZ*/);
+      const dynAccX = (1 + kGravityFilter) * 0.5 * deltaAccX + kGravityFilter * lastDynAccX;
+      const dynAccY = (1 + kGravityFilter) * 0.5 * deltaAccY + kGravityFilter * lastDynAccY;
+      const dynAccZ = (1 + kGravityFilter) * 0.5 * deltaAccZ + kGravityFilter * lastDynAccZ;
+      const dynAccMag = Math.min(2, Math.sqrt(dynAccX * dynAccX + dynAccY * dynAccY + dynAccZ * dynAccZ));
+      const slowDynAccMag = this.slowDynAccMag;
+      const slowDeltaAccMag = this.slowDeltaAccMag;
+
+      this.accMag = accMag;
+      this.dynAccMag = dynAccMag;
+
+      this.slowDeltaAccMag = 0.95 * slowDeltaAccMag + 0.05 * deltaAccMag;
+      this.slowDeltaAccMagSum += this.slowDeltaAccMag;
+      this.slowDynAccMag = 0.95 * slowDynAccMag + 0.05 * dynAccMag;
+      this.slowDynAccMagSum += this.slowDynAccMag;
+
+      this.lastDynAccX = dynAccX;
+      this.lastDynAccY = dynAccY;
+      this.lastDynAccZ = dynAccZ;
+      this.slowAccCount++;
+    }
+
+    this.lastAccX = accX;
+    this.lastAccY = accY;
+    this.lastAccZ = accZ;
   }
 
   onTimeout() {
-    // send state
-    setTimeout(this.onTimeout, 100);
+    let state = 'still';
+
+    if(this.hasTouched) {
+      state = 'birds';
+    } else {
+      const slowAccCount = this.slowAccCount;
+      const slowDeltaAccMagSum = this.slowDeltaAccMagSum;
+      let meanSlowDeltaAccMag = 0;
+
+      if(slowAccCount > 0) {
+        meanSlowDeltaAccMag = slowDeltaAccMagSum / slowAccCount;
+      }
+
+      if (meanSlowDeltaAccMag > 1) {
+        state = 'thunder';
+      } else if (meanSlowDeltaAccMag > 0.03) {
+        const slowDynAccMagSum = this.slowDynAccMagSum;
+        let meanSlowDynAccMag = 0;
+
+        if(slowAccCount > 0) {
+          meanSlowDynAccMag = slowDynAccMagSum / slowAccCount;
+        }
+
+        if(meanSlowDynAccMag > 0.15) {
+          state = 'rain';
+        } else {
+          state = 'wind';
+        }
+      }
+    }
+
+    const index = stateIndices[state];
+    this.send('state', index, state);
+
+    this.slowDeltaAccMagSum = 0;
+    this.slowDynAccMagSum = 0;
+    this.slowAccCount = 0;
+    this.hasTouched = false;
+
+    setTimeout(this.onTimeout, 1000 * statePeriod);
   }
 }
