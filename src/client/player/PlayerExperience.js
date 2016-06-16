@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 /* Colors
 	Green - #b2e95a;
 	Muted Green - #74983B;
@@ -6,8 +8,11 @@
 	Black - #000;
 */
 
+>>>>>>> origin/master
 import * as soundworks from 'soundworks/client';
 import Circles from './Circles';
+import RainDrops from './Rain';
+import BackgroundRenderer from './Background';
 import BirdSynth from './BirdSynth';
 import WindSynth from './WindSynth';
 import RainSynth from './RainSynth';
@@ -16,6 +21,12 @@ const audioContext = soundworks.audioContext;
 const refreshTimeout = 100;
 const TouchSurface = soundworks.TouchSurface;
 
+<<<<<<< HEAD
+console.log(BackgroundRenderer);
+
+
+=======
+>>>>>>> origin/master
 const viewTemplate = `
   <canvas class="background"></canvas>
   <div class="foreground">
@@ -114,13 +125,20 @@ export default class PlayerExperience extends soundworks.Experience {
       this.init();
 
     this.show();
-
-    this.circlesRenderer = new Circles();
+    
+    this.bgRenderer = new BackgroundRenderer();
+	this.circlesRenderer = new Circles();
+	this.rainRenderer = new RainDrops();
+    
+    this.view.addRenderer(this.bgRenderer);
     this.view.addRenderer(this.circlesRenderer);
-
+    this.view.addRenderer(this.rainRenderer);
+    
+    this.rainRenderer.update();
+    
     this.view.setPreRender((ctx) => {
-      ctx.fillStyle = '#74983B';
-      ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+	  ctx.fillStyle = '#000';
+      ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height); 
     });
 
     const surface = new TouchSurface(this.view.$el);
@@ -134,14 +152,24 @@ export default class PlayerExperience extends soundworks.Experience {
     // this.rainSynth.start();
 
     // (function triggerRainDrop() {
+	//   that.rainRenderer.trigger();
     //   that.rainSynth.trigger();
     //   setTimeout(triggerRainDrop, Math.random() * 150 + 100);
     // }());
   }
+  
+  
 
   onTouchStart(touchId, normX, normY) {
-    this.circlesRenderer.trigger(touchId, normX, normY, { duration: 0.4 });
-
+    this.circlesRenderer.trigger(touchId, normX, normY, { duration: 1 });
+    
+    /*
+	Flash for thunder
+	Remove to (mag > 20)
+	
+	this.circlesRenderer.flash(touchId, { duration: 0.5, velocity: 2000, color: '#ffffff'}); 
+	*/
+	
     const energy = Math.random();
 
     this.birdSynth.trigger(energy);
@@ -154,7 +182,7 @@ export default class PlayerExperience extends soundworks.Experience {
     const accZ = acc[2] / 9.81;
     const lastAccX = this.lastAccX;
 
-    if(lastAccX !== undefined) {
+    if (lastAccX !== undefined) {
       const lastAccY = this.lastAccY;
       const lastAccZ = this.lastAccZ;
       const lastDynAccX = this.lastDynAccX;
@@ -194,7 +222,7 @@ export default class PlayerExperience extends soundworks.Experience {
   onTimeout() {
     let state = 'still';
 
-    if(this.hasTouched) {
+    if (this.hasTouched) {
       state = 'birds';
     } else {
       const slowAccCount = this.slowAccCount;
@@ -211,11 +239,11 @@ export default class PlayerExperience extends soundworks.Experience {
         const slowDynAccMagSum = this.slowDynAccMagSum;
         let meanSlowDynAccMag = 0;
 
-        if(slowAccCount > 0) {
+        if (slowAccCount > 0) {
           meanSlowDynAccMag = slowDynAccMagSum / slowAccCount;
         }
 
-        if(meanSlowDynAccMag > 0.15) {
+        if (meanSlowDynAccMag > 0.15) {
           state = 'rain';
         } else {
           state = 'wind';
@@ -245,4 +273,6 @@ export default class PlayerExperience extends soundworks.Experience {
     const value = e.target.value;
     this.windSynth.setCutoffFrequency(value);
   }
+  
+  
 }

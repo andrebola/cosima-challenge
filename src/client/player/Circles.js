@@ -2,9 +2,7 @@ import { Renderer } from 'soundworks/client';
 import { getScaler } from 'soundworks/utils/math';
 
 const colorMap = [
-  '#44C7F1', '#37C000', '#F5D900', '#F39300',
-  '#EC5D57', '#B36AE2', '#00FDFF', '#FF80BE',
-  '#CAFA79', '#FFFF64', '#FF9EFF', '#007AFF'
+  '#FFF', '#E4D1A3', '#7A765A'
 ];
 
 class Circle {
@@ -14,15 +12,17 @@ class Circle {
     this.y = y;
 
     this.opacity = options.opacity || 1;
-    this.color = colorMap[(options.color || 0) % colorMap.length];
+    this.color = options.color || colorMap[2];
 
-    this.growthVelocity = options.velocity || 50; // pixels / sec
+    this.growthVelocity = options.velocity || 5; // pixels / sec
+    this.xVelocity = options.xV || (Math.random() - 0.5) / 10 + .02;
+    this.yVelocity = options.yV || (Math.random() - 0.5) / 10 + .02;
     this.minVelocity = 50; // if gain is < 0.25 => constant growth
     this.friction = -50; // pixels / sec
 
     this.setDuration(options.duration);
 
-    this.radius = 0;
+    this.radius = 10;
     this.coordinates = {};
     this.isDead = false;
   }
@@ -34,6 +34,8 @@ class Circle {
 
   update(dt, w, h) {
     // update coordinates - screen orientation
+    this.x += this.xVelocity;
+    this.y += this.yVelocity;
     this.coordinates.x = this.x * w;
     this.coordinates.y = this.y * h;
 
@@ -98,4 +100,12 @@ export default class Circles extends Renderer {
         circle.isDead = true;
     });
   }
+  
+  flash(id, options) {
+	  const circle = new Circle(id, 0.5, 0.5, options);
+	  this.circles.push(circle);
+
+  }
+  
+  
 }
