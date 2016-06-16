@@ -24,6 +24,9 @@ const files = {
     audio: 'sounds/turdus_merula.mp3',
     markers: 'sounds/turdus_merula-markers.json',
   },
+  rain: {
+    audio: 'sounds/rain.mp3',
+  }
 };
 
 // launch application when document is fully loaded

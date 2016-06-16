@@ -1,10 +1,8 @@
 import { Experience } from 'soundworks/server';
 
 
-const states = ['sunny', 'wind1', 'wind2', 'rain'];
-const duration = 1 * 60 * 1000;
-const stateDuration = duration / states.length;
-const transitionDuration = stateDuration / 3;
+const states = [0,0,0,0,0];
+const refreshTimeout = 1 * 1 * 100;
 
 // const midiNotes = [0, 2, 4, 5, 7, 9, 11];
 // function getRandomNoteFromCScale() {
@@ -13,6 +11,8 @@ const transitionDuration = stateDuration / 3;
 //   const octava = Math.floor(Math.random() * 6);
 //   return note + (12 * octava);
 // }
+
+let lastState = undefined;
 
 // server-side 'player' experience.
 export default class PlayerExperience extends Experience {
@@ -23,18 +23,17 @@ export default class PlayerExperience extends Experience {
     // this.stateThreshold = [10, 10, 10, 10, 10, 10];
     this.currentState = -1;
     this.hasStarted = false;
-    // this.currentLevel = 0;
-    // this.persistValue = 1000;
 
-    this.onInputChange = this.onInputChange.bind(this);
-    this.updateState = this.updateState.bind(this);
+    this.processState = this.processState.bind(this);
+    this.osc = this.require('osc');
   }
 
   // if anything needs to append when the experience starts
   start() {
-
+    this.osc.receive('/test', function(data) {
+      console.log(data);
+    });
   }
-
   // if anything needs to happen when a client enters the performance (*i.e.*
   // starts the experience on the client side), write it in the `enter` method
   enter(client) {
@@ -48,6 +47,13 @@ export default class PlayerExperience extends Experience {
         this.onPlayerEnter(client);
         break;
     }
+
+    this.receive(client, 'state', (index, name) => {
+      if(index !== lastState) {
+        console.log('state:', name);
+        lastState = index;
+      }
+    })
   }
 
  formatClientInformations(client) {
@@ -69,66 +75,38 @@ export default class PlayerExperience extends Experience {
     const infos = this.formatClientInformations(client);
 
     if (this.players.size === 0 && !this.hasStarted) {
-      this.updateState();
+      this.processState();
       this.hasStarted = true;
     }
 
     // keep track of the informations
     this.players.set(client, infos);
 
-    // listen touch inputs from the `player` client
-    this.receive(client, 'input:change', this.onInputChange);
-
-    this.receive(client, 'require:current:state', () => {
-      this.send(client, 'update:state', states[this.currentState]);
+    this.receive(client, 'current:state', (clientState) => {
+      states[clientState] = states[clientState] + 1;
     });
   }
 
-  onInputChange(stateName, params) {
-    const stateIndex = states.indexOf(stateName)
-    const { states } = this.players.get(client);
-    // const time = new Date().getTime();
-
-    // if (!states[stateIndex] || time - states[stateIndex] > this.persistValue) {
-    //   states[stateIndexe] = time;
-    //   const size = Object.keys(this.players).length;
-    //   this.currentLevel += 1 / size;
-    // }
-
-    // when the click event is received from the user we notify to all the shared-env clients
-    // this.broadcast('shared-env', null, 'player:add', infos, getRandomNoteFromCScale);
-  }
-
-  // runCounter() {
-  //   setTimeout(() => this.updateState, stateDuration);
-  // }
-
-  updateState() {
-    this.currentState = (this.currentState + 1) % states.length;
-
-    this.players.forEach((infos, player) => {
-      setTimeout(() => {
-        this.send(player, 'update:state', states[this.currentState]);
-      }, Math.random() * transitionDuration);
-    });
-
-    const that = this;
-    const nbrCuesPerState = 4;
-    const cueDuration = stateDuration / nbrCuesPerState;
-
-    console.log(stateDuration, cueDuration, transitionDuration);
-
-    for (let i = 0; i < nbrCuesPerState; i++) {
-      (function(i) {
-        const cueIndex = (nbrCuesPerState * that.currentState) + i;
-        setTimeout(function() {
-          console.log('cue', cueIndex);
-          that.broadcast('shared-env', null, 'cue', cueIndex);
-        }, cueDuration * i);
-      }(i));
+  processState() {
+    for (let i = 0; i < states.length; i++) {
+      if (this.players.size) {
+        let level = states[i] / this.players.size;
+        if (level >1) {
+          level = 1;
+        }
+        states[i] = states[i] / this.players.size;
+      } else {
+        states[i] = 0;
+      }
     }
 
-    setTimeout(this.updateState, stateDuration);
+    this.broadcast('shared-env', null, 'states:update', states);
+    this.osc.send('/states/update', states);
+
+    for (let i = 0; i < states.length; i++)
+      states[i] = 0;
+
+    setTimeout(this.processState, refreshTimeout);
   }
 
   onPlayerExit(client) {
