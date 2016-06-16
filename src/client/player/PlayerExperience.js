@@ -8,7 +8,7 @@ import Touch from './inputs/Touch';
 
 const SegmentedView = soundworks.SegmentedView;
 const audioContext = soundworks.audioContext;
-
+const refreshTimeout = 100;
 
 const viewTemplate = `
   <div id="interaction" class="stage2" ontouchstart="">
@@ -34,6 +34,7 @@ export default class PlayerExperience extends soundworks.Experience {
     this.onTouchStart = this.onTouchStart.bind(this);
     this.onStateUpdate = this.onStateUpdate.bind(this);
     this.onInputTrigger = this.onInputTrigger.bind(this);
+    this.refreshState = this.refreshState.bind(this);
   }
 
   init() {
@@ -48,6 +49,8 @@ export default class PlayerExperience extends soundworks.Experience {
     this.viewContent = {
       currentState: '',
     }
+    
+    this.refreshState();
 
     this.view = this.createView();
   }
@@ -119,8 +122,16 @@ export default class PlayerExperience extends soundworks.Experience {
   }
 
   onInputTrigger(...params) {
-    this.send('input:change', this.state, ...params);
+    //this.send('input:change', this.state, ...params);
     console.log('input here!', params);
     // maybe update view with `params`
   }
+  
+  refreshState() {
+    this.state = 1;
+    this.send('current:state', this.state);
+    
+    setTimeout(this.refreshState, refreshTimeout);
+  }
+
 }

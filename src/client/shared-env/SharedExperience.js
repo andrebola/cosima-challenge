@@ -42,6 +42,6 @@ export default class SharedExperience extends soundworks.Experience {
     console.log('test');
     // handle click event from users
     this.receive('cue', (cueIndex) => console.log(cueIndex));
-    this.receive('test', (val) => console.log(val));
+    this.receive('states', (val) => console.log(val));
   }
 }
