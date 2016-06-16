@@ -1,6 +1,6 @@
 
 export class MovingAverage {
-  constructor(order) {
+  constructor(order = 1) {
     this.order = order;
     this.index = 0;
     this.stack = new Array(this.order);
@@ -17,13 +17,12 @@ export class MovingAverage {
       sum += this.stack[i];
 
     this.index = (this.index + 1) % this.order;
-    console.log(value, this.stack);
     return sum / this.order;
   }
 }
 
 export class MovingAverageVector {
-  constructor(vectorSize, order) {
+  constructor(vectorSize, order = 1) {
     this.vectorSize = vectorSize;
     this.order = order;
     this.index = 0;

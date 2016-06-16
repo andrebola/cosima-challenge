@@ -21,17 +21,14 @@ export default class PlayerExperience extends Experience {
     // this.stateThreshold = [10, 10, 10, 10, 10, 10];
     this.currentState = -1;
     this.hasStarted = false;
-    // this.currentLevel = 0;
-    // this.persistValue = 1000;
 
-    this.onInputChange = this.onInputChange.bind(this);
     this.processState = this.processState.bind(this);
     this.osc = this.require('osc');
   }
 
   // if anything needs to append when the experience starts
   start() {
-    this.osc.receive('/test', function(data){
+    this.osc.receive('/test', function(data) {
       console.log(data);
     });
   }
@@ -76,9 +73,6 @@ export default class PlayerExperience extends Experience {
     // keep track of the informations
     this.players.set(client, infos);
 
-    // listen touch inputs from the `player` client
-    this.receive(client, 'input:change', this.onInputChange);
-
     this.receive(client, 'current:state', (clientState) => {
       states[clientState] = states[clientState] + 1;
     });
@@ -86,27 +80,7 @@ export default class PlayerExperience extends Experience {
 
   }
 
-  onInputChange(stateName, params) {
-    const stateIndex = states.indexOf(stateName)
-    const { states } = this.players.get(client);
-    // const time = new Date().getTime();
-
-    // if (!states[stateIndex] || time - states[stateIndex] > this.persistValue) {
-    //   states[stateIndexe] = time;
-    //   const size = Object.keys(this.players).length;
-    //   this.currentLevel += 1 / size;
-    // }
-
-    // when the click event is received from the user we notify to all the shared-env clients
-    // this.broadcast('shared-env', null, 'player:add', infos, getRandomNoteFromCScale);
-  }
-
-  // runCounter() {
-  //   setTimeout(() => this.processState, stateDuration);
-  // }
-
   processState() {
-
     for (let i = 0; i < states.length; i++) {
       if (this.players.size) {
         const level = states[i] / this.players.size;
