@@ -15,7 +15,7 @@ import WindSynth from './WindSynth';
 import RainSynth from './RainSynth';
 
 const audioContext = soundworks.audioContext;
-const refreshTimeout = 100;
+const refreshTimeout = 200;
 const TouchSurface = soundworks.TouchSurface;
 
 

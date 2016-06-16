@@ -2,7 +2,7 @@ import { Experience } from 'soundworks/server';
 
 
 const states = [0,0,0,0,0];
-const refreshTimeout = 1 * 1 * 100;
+const refreshTimeout = 200;
 
 // const midiNotes = [0, 2, 4, 5, 7, 9, 11];
 // function getRandomNoteFromCScale() {
@@ -100,13 +100,15 @@ export default class PlayerExperience extends Experience {
 
     // normalize states on 1
     const max = Math.max.apply(null, states);
-    if (max >= 0) {
+    if (max > 0) {
       for (let i = 0; i < states.length; i++) {
         states[i] /= max;
         states[i] *= states[i];
       }
     }
 
+    console.log(max)
+    console.log(states)
     this.broadcast('shared-env', null, 'states:update', states);
     this.osc.send('/states/update', states);
 
