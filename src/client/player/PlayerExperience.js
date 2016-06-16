@@ -9,6 +9,8 @@
 import * as soundworks from 'soundworks/client';
 import Circles from './Circles';
 import BirdSynth from './BirdSynth';
+import WindSynth from './WindSynth';
+import RainSynth from './RainSynth';
 
 const audioContext = soundworks.audioContext;
 const refreshTimeout = 100;
@@ -18,8 +20,11 @@ const viewTemplate = `
   <canvas class="background"></canvas>
   <div class="foreground">
     <div class="section-top flex-middle"></div>
-    <div class="section-center flex-center">
-    <div class="section-bottom flex-center">
+    <input type="range" min="0" max="1" step="0.01" value="0" id="range" />
+    <div class="section-center">
+
+    </div>
+    <div class="section-bottom flex-center"></div>
   </div>
 `;
 
@@ -31,11 +36,13 @@ export default class PlayerExperience extends soundworks.Experience {
   constructor(assetsDomain, files) {
     super();
 
-    this.platform = this.require('platform', { showDialog: true });
+    this.platform = this.require('platform', { features: ['web-audio'] });
     this.loader = this.require('loader', { files, assetsDomain });
 
     this.onTouchStart = this.onTouchStart.bind(this);
     this.refreshState = this.refreshState.bind(this);
+
+    this._updateWind = this._updateWind.bind(this);
   }
 
   init() {
@@ -45,7 +52,7 @@ export default class PlayerExperience extends soundworks.Experience {
     this.viewTemplate = viewTemplate;
     this.viewCtor = soundworks.CanvasView;
     this.viewEvents = {
-      // 'touchstart #button': this.onTouchStart,
+      'input #range': this._updateWind
     };
     this.viewContent = {
       currentState: '',
@@ -57,8 +64,13 @@ export default class PlayerExperience extends soundworks.Experience {
 
     const output = audioContext.destination;
     const birdIndex = Math.floor(birdNames.length * Math.random());
-    const { audio, markers } = this.loader.get(birdNames[birdIndex]);
+    let { audio, markers } = this.loader.get(birdNames[birdIndex]);
+
     this.birdSynth = new BirdSynth(output, audio, markers);
+    this.windSynth = new WindSynth(output);
+
+    const buffer = this.loader.get('rain').audio;
+    this.rainSynth = new RainSynth(output, buffer);
   }
 
   start() {
@@ -83,13 +95,21 @@ export default class PlayerExperience extends soundworks.Experience {
     // When server send stop and start message execute corresponding functions
     this.receive('start', this.onStartMessage);
     this.receive('stop', this.onStopMessage);
+
+    const that = this;
+    this.rainSynth.start();
+
+    (function triggerRainDrop() {
+      that.rainSynth.trigger();
+      setTimeout(triggerRainDrop, Math.random() * 150 + 100);
+    }());
   }
 
   onTouchStart(touchId, normX, normY) {
     this.circlesRenderer.trigger(touchId, normX, normY, { duration: 0.4 });
 
     const energy = Math.random();
-    this.birdSynth.trigger(energy);
+    // this.birdSynth.trigger(energy);
   }
 
   refreshState() {
@@ -99,4 +119,8 @@ export default class PlayerExperience extends soundworks.Experience {
     setTimeout(this.refreshState, refreshTimeout);
   }
 
+  _updateWind(e) {
+    const value = e.target.value;
+    this.windSynth.setCutoffFrequency(value);
+  }
 }

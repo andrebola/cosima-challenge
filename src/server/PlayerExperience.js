@@ -76,8 +76,6 @@ export default class PlayerExperience extends Experience {
     this.receive(client, 'current:state', (clientState) => {
       states[clientState] = states[clientState] + 1;
     });
-
-
   }
 
   processState() {
