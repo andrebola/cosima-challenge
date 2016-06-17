@@ -667,366 +667,41 @@ p, .normal {
 /**
  * Entry point for application specific styling and overriding.
  */
-.btn {
-  -webkit-touch-callout: none;
-  /* iOS Safari */
-  -webkit-user-select: none;
-  /* Chrome/Safari/Opera */
-  -khtml-user-select: none;
-  /* Konqueror */
-  -moz-user-select: none;
-  /* Firefox */
-  -ms-user-select: none;
-  /* Internet Explorer/Edge */
-  user-select: none;
-  /* Non-prefixed version, currently
-                                  not supported by any browser */
-  border: none; }
+#container {
+  background-color: #9CC5C7;
+  color: #fff; }
 
-html, body {
-  width: 100%;
-  height: 100%; }
+.big {
+  -webkit-animation: fadeIn 4s;
+  /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadeIn 4s;
+  /* Firefox < 16 */
+  -ms-animation: fadeIn 4s;
+  /* Internet Explorer */
+  -o-animation: fadeIn 4s;
+  /* Opera < 12.1 */
+  animation: fadeIn 4s; }
 
-body {
-  text-align: center;
-  margin: 0 auto; }
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
 
-#interaction {
-  display: box;
-  box-pack: center;
-  box-align: center;
-  margin: 0 auto;
-  width: 100%;
-  height: 100%; }
-  #interaction.stage1 {
-    background: #b2e95a; }
-  #interaction.stage2 {
-    background: #74983B; }
-  #interaction.stage3 {
-    background: #74988A; }
-  #interaction.stage4 {
-    background: #6184ab; }
-  #interaction.stage5 {
-    background: #000; }
+@-moz-keyframes fadeIn {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
 
-#buttons {
-  position: relative;
-  top: 50%;
-  left: 50%;
-  margin-right: -50%; }
+@-o-keyframes fadeIn {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
 
-#btn_2 {
-  top: -100px;
-  left: 75px; }
-
-#btn_3 {
-  left: 110px; }
-
-#btn_4 {
-  top: 100px;
-  left: 75px; }
-
-#btn_5 {
-  top: 100px;
-  left: -75px; }
-
-#btn_6 {
-  left: -110px; }
-
-#btn_7 {
-  top: -100px;
-  left: -75px; }
-
-.stage1 #btn_1 {
-  width: 100px;
-  height: 100px;
-  transform: scale(1);
-  transition: all 0.5s;
-  background-color: rgba(255, 255, 255, 0.5);
-  border-radius: 50%;
-  position: absolute;
-  margin-top: -50px;
-  margin-left: -50px; }
-  .stage1 #btn_1.touched {
-    transform: scale(2);
-    transition: all 0.5s; }
-
-.stage1 #btn_2 {
-  width: 100px;
-  height: 100px;
-  transform: scale(1);
-  transition: all 0.5s;
-  background-color: rgba(255, 255, 255, 0);
-  border-radius: 50%;
-  position: absolute;
-  margin-top: -50px;
-  margin-left: -50px; }
-  .stage1 #btn_2.touched {
-    transform: scale(2);
-    transition: all 0.5s; }
-
-.stage1 #btn_3 {
-  width: 100px;
-  height: 100px;
-  transform: scale(1);
-  transition: all 0.5s;
-  background-color: rgba(255, 255, 255, 0);
-  border-radius: 50%;
-  position: absolute;
-  margin-top: -50px;
-  margin-left: -50px; }
-  .stage1 #btn_3.touched {
-    transform: scale(2);
-    transition: all 0.5s; }
-
-.stage1 #btn_4 {
-  width: 100px;
-  height: 100px;
-  transform: scale(1);
-  transition: all 0.5s;
-  background-color: rgba(255, 255, 255, 0);
-  border-radius: 50%;
-  position: absolute;
-  margin-top: -50px;
-  margin-left: -50px; }
-  .stage1 #btn_4.touched {
-    transform: scale(2);
-    transition: all 0.5s; }
-
-.stage1 #btn_5 {
-  width: 100px;
-  height: 100px;
-  transform: scale(1);
-  transition: all 0.5s;
-  background-color: rgba(255, 255, 255, 0);
-  border-radius: 50%;
-  position: absolute;
-  margin-top: -50px;
-  margin-left: -50px; }
-  .stage1 #btn_5.touched {
-    transform: scale(2);
-    transition: all 0.5s; }
-
-.stage1 #btn_6 {
-  width: 100px;
-  height: 100px;
-  transform: scale(1);
-  transition: all 0.5s;
-  background-color: rgba(255, 255, 255, 0);
-  border-radius: 50%;
-  position: absolute;
-  margin-top: -50px;
-  margin-left: -50px; }
-  .stage1 #btn_6.touched {
-    transform: scale(2);
-    transition: all 0.5s; }
-
-.stage1 #btn_7 {
-  width: 100px;
-  height: 100px;
-  transform: scale(1);
-  transition: all 0.5s;
-  background-color: rgba(255, 255, 255, 0);
-  border-radius: 50%;
-  position: absolute;
-  margin-top: -50px;
-  margin-left: -50px; }
-  .stage1 #btn_7.touched {
-    transform: scale(2);
-    transition: all 0.5s; }
-
-.stage2 #btn_1 {
-  width: 100px;
-  height: 100px;
-  transform: scale(1);
-  transition: all 3s;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  position: absolute;
-  margin-top: -50px;
-  margin-left: -50px; }
-  .stage2 #btn_1.touched {
-    transform: scale(2);
-    transition: all 3s; }
-
-.stage2 #btn_2 {
-  width: 100px;
-  height: 100px;
-  transform: scale(1);
-  transition: all 3s;
-  background-color: rgba(150, 152, 97, 0.5);
-  border-radius: 50%;
-  position: absolute;
-  margin-top: -50px;
-  margin-left: -50px; }
-  .stage2 #btn_2.touched {
-    transform: scale(2);
-    transition: all 3s; }
-
-.stage2 #btn_3 {
-  width: 100px;
-  height: 100px;
-  transform: scale(1);
-  transition: all 3s;
-  background-color: rgba(75, 97, 114, 0.5);
-  border-radius: 50%;
-  position: absolute;
-  margin-top: -50px;
-  margin-left: -50px; }
-  .stage2 #btn_3.touched {
-    transform: scale(2);
-    transition: all 3s; }
-
-.stage2 #btn_4 {
-  width: 100px;
-  height: 100px;
-  transform: scale(1);
-  transition: all 3s;
-  background-color: rgba(50, 64, 76, 0.5);
-  border-radius: 50%;
-  position: absolute;
-  margin-top: -50px;
-  margin-left: -50px; }
-  .stage2 #btn_4.touched {
-    transform: scale(2);
-    transition: all 3s; }
-
-.stage2 #btn_5 {
-  width: 100px;
-  height: 100px;
-  transform: scale(1);
-  transition: all 3s;
-  background-color: rgba(190, 178, 55, 0.5);
-  border-radius: 50%;
-  position: absolute;
-  margin-top: -50px;
-  margin-left: -50px; }
-  .stage2 #btn_5.touched {
-    transform: scale(2);
-    transition: all 3s; }
-
-.stage2 #btn_6 {
-  width: 100px;
-  height: 100px;
-  transform: scale(1);
-  transition: all 3s;
-  background-color: rgba(91, 118, 139, 0.5);
-  border-radius: 50%;
-  position: absolute;
-  margin-top: -50px;
-  margin-left: -50px; }
-  .stage2 #btn_6.touched {
-    transform: scale(2);
-    transition: all 3s; }
-
-.stage2 #btn_7 {
-  width: 100px;
-  height: 100px;
-  transform: scale(1);
-  transition: all 3s;
-  background-color: rgba(91, 118, 133, 0.2);
-  border-radius: 50%;
-  position: absolute;
-  margin-top: -50px;
-  margin-left: -50px; }
-  .stage2 #btn_7.touched {
-    transform: scale(2);
-    transition: all 3s; }
-
-.stage3 #btn_1 {
-  width: 100px;
-  height: 100px;
-  transform: scale(1);
-  transition: all 0.5s;
-  background-color: rgba(255, 255, 255, 0);
-  border-radius: 50%;
-  position: absolute;
-  margin-top: -50px;
-  margin-left: -50px; }
-  .stage3 #btn_1.touched {
-    transform: scale(2);
-    transition: all 0.5s; }
-
-.stage3 #btn_2 {
-  width: 100px;
-  height: 100px;
-  transform: scale(1);
-  transition: all 0.5s;
-  background-color: rgba(255, 255, 255, 0);
-  border-radius: 50%;
-  position: absolute;
-  margin-top: -50px;
-  margin-left: -50px; }
-  .stage3 #btn_2.touched {
-    transform: scale(2);
-    transition: all 0.5s; }
-
-.stage3 #btn_3 {
-  width: 100px;
-  height: 100px;
-  transform: scale(1);
-  transition: all 0.5s;
-  background-color: rgba(255, 255, 255, 0);
-  border-radius: 50%;
-  position: absolute;
-  margin-top: -50px;
-  margin-left: -50px; }
-  .stage3 #btn_3.touched {
-    transform: scale(2);
-    transition: all 0.5s; }
-
-.stage3 #btn_4 {
-  width: 100px;
-  height: 100px;
-  transform: scale(1);
-  transition: all 0.5s;
-  background-color: rgba(255, 255, 255, 0);
-  border-radius: 50%;
-  position: absolute;
-  margin-top: -50px;
-  margin-left: -50px; }
-  .stage3 #btn_4.touched {
-    transform: scale(2);
-    transition: all 0.5s; }
-
-.stage3 #btn_5 {
-  width: 100px;
-  height: 100px;
-  transform: scale(1);
-  transition: all 0.5s;
-  background-color: rgba(255, 255, 255, 0);
-  border-radius: 50%;
-  position: absolute;
-  margin-top: -50px;
-  margin-left: -50px; }
-  .stage3 #btn_5.touched {
-    transform: scale(2);
-    transition: all 0.5s; }
-
-.stage3 #btn_6 {
-  width: 100px;
-  height: 100px;
-  transform: scale(1);
-  transition: all 0.5s;
-  background-color: rgba(255, 255, 255, 0);
-  border-radius: 50%;
-  position: absolute;
-  margin-top: -50px;
-  margin-left: -50px; }
-  .stage3 #btn_6.touched {
-    transform: scale(2);
-    transition: all 0.5s; }
-
-.stage3 #btn_7 {
-  width: 100px;
-  height: 100px;
-  transform: scale(1);
-  transition: all 0.5s;
-  background-color: rgba(255, 255, 255, 0);
-  border-radius: 50%;
-  position: absolute;
-  margin-top: -50px;
-  margin-left: -50px; }
-  .stage3 #btn_7.touched {
-    transform: scale(2);
-    transition: all 0.5s; }
+@keyframes fadeIn {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }

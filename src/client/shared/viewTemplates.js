@@ -116,8 +116,6 @@ export default {
       <div class="section-top flex-middle"></div>
       <div class="section-center flex-center">
           <p class="big">
-            <%= intro %>
-            <br />
             <b><%= globals.appName %></b>
           </p>
       </div>
