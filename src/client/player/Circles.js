@@ -2,7 +2,11 @@ import { Renderer } from 'soundworks/client';
 import { getScaler } from 'soundworks/utils/math';
 
 const colorMap = [
-  '#FFF', '#E4D1A3', '#7A765A'
+  '#6A3933', 	// pinkish
+  '#A36DB1', 	// purplish
+  '#7A765A', 	// brownish
+  '#EDEDED', 	// whitish
+  '#54797A'		// greenish   
 ];
 
 class Circle {
@@ -10,13 +14,16 @@ class Circle {
     this.id = id;
     this.x = x;
     this.y = y;
+    this.xDrag = (Math.random() - 0.5) / 10;
+    this.yDrag = (Math.random() - 0.5) / 10;
 
     this.opacity = options.opacity || 1;
-    this.color = options.color || colorMap[2];
+    var c = Math.floor(Math.random()*colorMap.length)
+    this.color = options.color || colorMap[c];
 
     this.growthVelocity = options.velocity || 5; // pixels / sec
-    this.xVelocity = options.xV || (Math.random() - 0.5) / 10 + .02;
-    this.yVelocity = options.yV || (Math.random() - 0.5) / 10 + .02;
+    this.xVelocity = options.xV || (Math.random() - 0.6) / 10;
+    this.yVelocity = options.yV || (Math.random() - 0.6) / 10;
     this.minVelocity = 50; // if gain is < 0.25 => constant growth
     this.friction = -50; // pixels / sec
 
@@ -31,13 +38,26 @@ class Circle {
     this.lifeTime = time;
     this.opacityScale = getScaler(this.lifeTime, 0, this.opacity, 0);
   }
+  
 
   update(dt, w, h) {
     // update coordinates - screen orientation
-    this.x += this.xVelocity;
-    this.y += this.yVelocity;
-    this.coordinates.x = this.x * w;
-    this.coordinates.y = this.y * h;
+    
+/*
+    // (speed + drag) + location
+    this.xVelocity += this.xDrag + 0.1
+    this.yVelocity += this.yDrag;
+    
+*/
+	this.yDrag += .01;
+	this.xDrag += .01;
+
+    this.x += this.xVelocity * this.xDrag;
+    this.y += this.yVelocity * this.yDrag;
+      console.log(this.xVelocity);
+
+    this.coordinates.x = (this.x * w);
+    this.coordinates.y = (this.y * h);
 
     this.lifeTime -= dt;
     this.opacity = this.opacityScale(this.lifeTime);
