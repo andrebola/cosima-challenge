@@ -7,6 +7,7 @@ import WindSynth from './WindSynth';
 import RainSynth from './RainSynth';
 
 const audioContext = soundworks.audioContext;
+const refreshTimeout = 100;
 const TouchSurface = soundworks.TouchSurface;
 
 const viewTemplate = `
@@ -39,7 +40,7 @@ export default class PlayerExperience extends soundworks.Experience {
   constructor(assetsDomain, files) {
     super();
 
-    this.platform = this.require('platform', { features: ['web-audio'] });
+    this.platform = this.require('platform', { features: ['web-audio', 'wake-lock'] });
     this.loader = this.require('loader', { files, assetsDomain });
 
     this.motionInput = this.require('motion-input', {
@@ -56,7 +57,7 @@ export default class PlayerExperience extends soundworks.Experience {
   init() {
 	this.state = 'still';
 	this.stateIndex = 0;
-	  
+
     this.lastAccX = undefined;
     this.lastAccY = undefined;
     this.lastAccY = undefined;
@@ -107,43 +108,29 @@ export default class PlayerExperience extends soundworks.Experience {
       this.init();
 
     this.show();
-    
+
     this.bgRenderer = new BackgroundRenderer();
     this.bgRenderer.setColor(0);
 	this.circlesRenderer = new Circles();
 	this.rainRenderer = new RainDrops();
-    
+
     this.view.addRenderer(this.bgRenderer);
     this.view.addRenderer(this.circlesRenderer);
     this.view.addRenderer(this.rainRenderer);
-    
+
     this.rainRenderer.update();
-    
+
     this.view.setPreRender((ctx) => {
 	  ctx.fillStyle = '#000';
-      ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height); 
+      ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     });
 
     const surface = new TouchSurface(this.view.$el);
     surface.addListener('touchstart', this.onTouchStart);
-
-    // const that = this;
-    // this.rainSynth.start();
-
-    // (function triggerRainDrop() {
-	//   that.rainRenderer.trigger();
-    //   that.rainSynth.trigger();
-    //   setTimeout(triggerRainDrop, Math.random() * 150 + 100);
-    // }());
-    
   }
-  
-  
 
   onTouchStart(touchId, normX, normY) {
     this.circlesRenderer.trigger(touchId, normX, normY, { duration: 1 });
-
-	
     const energy = Math.random();
 
     this.birdSynth.trigger(energy);
@@ -190,17 +177,7 @@ export default class PlayerExperience extends soundworks.Experience {
 
     this.lastAccX = accX;
     this.lastAccY = accY;
-    this.lastAccZ = accZ;
-
-/*
-	const index = stateIndices[this.state];
-    if(index >= stateIndices.wind) {
-	    // this.slowDeltaAccMag => use for wind
-	    this.bgRenderer.setOpacity(1 - this.slowDeltaAccMag);
-    } else {
-	    this.bgRenderer.setOpacity(.75);
-    }
-*/    
+    this.lastAccZ = accZ;  
     
     // Wind Visual Always Active
     this.bgRenderer.setOpacity(1 - this.slowDeltaAccMag);
@@ -217,7 +194,7 @@ export default class PlayerExperience extends soundworks.Experience {
       const slowDeltaAccMagSum = this.slowDeltaAccMagSum;
       let meanSlowDeltaAccMag = 0;
 
-      if(slowAccCount > 0) {
+      if (slowAccCount > 0) {
         meanSlowDeltaAccMag = slowDeltaAccMagSum / slowAccCount;
       }
 
@@ -238,34 +215,52 @@ export default class PlayerExperience extends soundworks.Experience {
         }
       }
     }
-	
+
     const index = stateIndices[state];
 
     this.send('current:state', index, state);
-    
-	this.state = state;
-	this.stateIndex = index;
-   
-    
-    // UI on Phone
-    if(index >= stateIndices.thunder) {
-	    this.circlesRenderer.flash(1, { duration: 0.5, xV: .00001, yV: .00001, velocity: 2000, color: '#ffffff'}); 
+
+	  this.state = state;
+	  this.stateIndex = index;
+
+
+    // THUNDER
+    if (index >= stateIndices.thunder) {
+      const thunderOptions = {
+        duration: 0.5,
+        xV: .00001,
+        yV: .00001,
+        velocity: 2000,
+        color: '#ffffff',
+      };
+
+	    this.circlesRenderer.flash(1, thunderOptions);
     }
-    
-    if(index >= stateIndices.rain) {
-	    this.rainIsActive = true;
-	    const that = this;
-		(function triggerRainDrop() {
-	    if(	    that.rainIsActive) {
-			that.rainRenderer.trigger();
-			that.rainSynth.trigger();
-			setTimeout(triggerRainDrop, Math.random() * 150 + 100);
-      		}
-    	}());
+
+    // RAIN
+    if (index >= stateIndices.rain) {
+      if (!this.rainIsActive) {
+  	    this.rainIsActive = true;
+
+        const that = this;
+
+    		(function triggerRainDrop() {
+    	    if (that.rainIsActive) {
+            const nbrRainDrops = Math.floor(Math.random() * 8);
+
+            for (let  i = 0; i < nbrRainDrops; i++) {
+      			  that.rainRenderer.trigger();
+            }
+
+      			that.rainSynth.trigger();
+      			setTimeout(triggerRainDrop, Math.random() * 150 + 100);
+          }
+      	}());
+      }
     } else {
-	    this.rainIsActive = false;
+      this.rainIsActive = false;
     }
-    
+
     this.slowDeltaAccMagSum = 0;
     this.slowDynAccMagSum = 0;
     this.slowAccCount = 0;
@@ -278,6 +273,6 @@ export default class PlayerExperience extends soundworks.Experience {
     const value = e.target.value;
     this.windSynth.setCutoffFrequency(value);
   }
-  
-  
+
+
 }
