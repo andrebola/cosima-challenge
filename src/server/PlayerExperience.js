@@ -67,7 +67,7 @@ export default class PlayerExperience extends Experience {
     // send the list of connected players
     // const playerInfos = Array.from(this.players.values())
     // ... not doing anything yet
-    this.broadcast('shared-env', null, 'test', true);
+    // this.broadcast('shared-env', null, 'test', true);
   }
 
   onPlayerEnter(client) {

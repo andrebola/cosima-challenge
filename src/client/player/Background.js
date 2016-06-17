@@ -1,18 +1,12 @@
-/* Colors
-	Blue - #9CC5C7;
-	Muted Green - #74983B;
-	Grey / Blue - #74988A; 
-	Muted Grey/Blue - #6184ab; 
-	Purple - #27092E
-	Black - #000;
-	
-	3 - Rain - #54797A
-*/
-
 import { Renderer } from 'soundworks/client';
 
 const colorMap = [
-  '#9CC5C7', '#74988A', '#27092E', '#54797A', '#6184ab' 
+  '#9CC5C7', // Blue
+  '#74988A', // Grey/Blue
+  '#27092E', // Purple
+  '#54797A', // ?
+  '#9CC5C7', // Blue
+  '#6184ab'  // Muted Grey/Blue
 ];
 
 export default class BackgroundRenderer extends Renderer {

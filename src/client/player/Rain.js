@@ -78,10 +78,10 @@ export default class RainDrops extends Renderer {
         this.raindrops.splice(i, 1);
     }
   }
-  
+
   trigger() {
-	const rain = new Rain();
-	this.raindrops.push(rain);
+  	const rain = new Rain();
+  	this.raindrops.push(rain);
   }
 
   render(ctx) {
@@ -95,5 +95,5 @@ export default class RainDrops extends Renderer {
         rain.isDead = true;
     });
   }
-  
+
 }
