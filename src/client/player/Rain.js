@@ -17,7 +17,7 @@ class Rain {
     this.minVelocity = 50; // if gain is < 0.25 => constant growth
     this.friction = -50; // pixels / sec
 
-    this.setDuration(5);
+    this.setDuration(2);
 
     this.radius = 0;
     this.coordinates = {};
@@ -78,10 +78,10 @@ export default class RainDrops extends Renderer {
         this.raindrops.splice(i, 1);
     }
   }
-  
+
   trigger() {
-	const rain = new Rain();
-	this.raindrops.push(rain);
+  	const rain = new Rain();
+  	this.raindrops.push(rain);
   }
 
   render(ctx) {
@@ -95,5 +95,5 @@ export default class RainDrops extends Renderer {
         rain.isDead = true;
     });
   }
-  
+
 }
