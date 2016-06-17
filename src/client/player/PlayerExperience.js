@@ -5,6 +5,7 @@ import BackgroundRenderer from './Background';
 import BirdSynth from './BirdSynth';
 import WindSynth from './WindSynth';
 import RainSynth from './RainSynth';
+import ThunderSynth from './ThunderSynth';
 
 const audioContext = soundworks.audioContext;
 const refreshTimeout = 100;
@@ -50,8 +51,6 @@ export default class PlayerExperience extends soundworks.Experience {
     this.onTouchStart = this.onTouchStart.bind(this);
     this.onAccelerationIncludingGravity = this.onAccelerationIncludingGravity.bind(this);
     this.onTimeout = this.onTimeout.bind(this);
-
-    this._updateWind = this._updateWind.bind(this);
   }
 
   init() {
@@ -75,11 +74,9 @@ export default class PlayerExperience extends soundworks.Experience {
 
     this.viewTemplate = viewTemplate;
     this.viewCtor = soundworks.CanvasView;
-    this.viewEvents = {
-      'input #range': this._updateWind
-    };
+    this.viewEvents = {};
     this.viewContent = {
-      currentState: '',
+      // currentState: '',
     }
 
     this.view = this.createView();
@@ -90,9 +87,14 @@ export default class PlayerExperience extends soundworks.Experience {
 
     this.birdSynth = new BirdSynth(output, audio, markers);
     this.windSynth = new WindSynth(output);
+    this.hasWind = false;
 
-    const buffer = this.loader.get('rain').audio;
-    this.rainSynth = new RainSynth(output, buffer);
+    const rainBuffer = this.loader.get('rain').audio;
+    this.rainSynth = new RainSynth(output, rainBuffer);
+
+    const thunderBuffer1 = this.loader.get('thunder1').audio;
+    const thunderBuffer2 = this.loader.get('thunder2').audio;
+    this.thunderSynth = new ThunderSynth(output, [thunderBuffer1, thunderBuffer2]);
 
     if (this.motionInput.isAvailable('accelerationIncludingGravity')) {
       this.motionInput.addListener('accelerationIncludingGravity', this.onAccelerationIncludingGravity);
@@ -111,8 +113,8 @@ export default class PlayerExperience extends soundworks.Experience {
 
     this.bgRenderer = new BackgroundRenderer();
     this.bgRenderer.setColor(4);
-	this.circlesRenderer = new Circles();
-	this.rainRenderer = new RainDrops();
+  	this.circlesRenderer = new Circles();
+  	this.rainRenderer = new RainDrops();
 
     this.view.addRenderer(this.bgRenderer);
     this.view.addRenderer(this.circlesRenderer);
@@ -187,7 +189,19 @@ export default class PlayerExperience extends soundworks.Experience {
 	    // this.slowDeltaAccMag => use for wind
 	    this.bgRenderer.setOpacity(1 - this.slowDeltaAccMag);
     } else {
-	    this.bgRenderer.setOpacity(.75);
+      this.bgRenderer.setOpacity(.75);
+    }
+
+    if (index === stateIndices.wind) {
+      if (!this.hasWind) {
+        this.hasWind = true;
+        this.windSynth.start();
+      }
+
+      this.windSynth.setCutoffFrequency(Math.sqrt(this.slowDeltaAccMag));
+    } else {
+      this.windSynth.stop();
+      this.hasWind = false;
     }
   }
 
@@ -242,6 +256,7 @@ export default class PlayerExperience extends soundworks.Experience {
       };
 
 	    this.circlesRenderer.flash(1, thunderOptions);
+      this.thunderSynth.trigger();
     }
 
     // RAIN
@@ -275,11 +290,4 @@ export default class PlayerExperience extends soundworks.Experience {
 
     setTimeout(this.onTimeout, 1000 * statePeriod);
   }
-
-  _updateWind(e) {
-    const value = e.target.value;
-    this.windSynth.setCutoffFrequency(value);
-  }
-
-
 }

@@ -17,8 +17,8 @@ export default class WindSynth {
     this.env.gain.value = 0;
     this.env.gain.setValueAtTime(0, audioContext.currentTime);
 
-    this.minCutoff = 200;
-    this.maxCutoff = 2000; // audioContext.sampleRate / 2;
+    this.minCutoff = 500;
+    this.maxCutoff = 4000; // audioContext.sampleRate / 2;
     this.logCutoffRatio = Math.log(this.maxCutoff / this.minCutoff);
 
     this.bandpass = audioContext.createBiquadFilter();
@@ -26,7 +26,7 @@ export default class WindSynth {
     // bandpass
     this.bandpass.type = 'bandpass';
     this.bandpass.frequency.value = this.minCutoff;
-    this.bandpass.Q.value = 16;
+    this.bandpass.Q.value = 12;
 
     this.source = audioContext.createBufferSource();
     this.source.connect(this.bandpass);
@@ -36,10 +36,16 @@ export default class WindSynth {
   }
 
   start() {
-    this.env.gain.linearRampToValueAtTime(1, audioContext.currentTime + 0.1);
+    const now = audioContext.currentTime;
+    this.env.gain.cancelScheduledValues(now);
+    this.env.gain.setValueAtTime(this.env.gain.value, now);
+    this.env.gain.linearRampToValueAtTime(12, audioContext.currentTime + 0.25);
   }
 
   stop() {
+    const now = audioContext.currentTime;
+    this.env.gain.cancelScheduledValues(now);
+    this.env.gain.setValueAtTime(this.env.gain.value, now);
     this.env.gain.linearRampToValueAtTime(0, audioContext.currentTime + 1);
   }
 

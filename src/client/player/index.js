@@ -26,6 +26,12 @@ const files = {
   },
   rain: {
     audio: 'sounds/rain.mp3',
+  },
+  thunder1: {
+    audio: 'sounds/thunder-1.mp3',
+  },
+  thunder2: {
+    audio: 'sounds/thunder-2.mp3',
   }
 };
 

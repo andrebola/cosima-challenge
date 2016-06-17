@@ -107,10 +107,10 @@ export default class PlayerExperience extends Experience {
       }
     }
 
-    console.log(max)
-    console.log(states)
+
     this.broadcast('shared-env', null, 'states:update', states);
-    this.osc.send('/states/update', states.slice(1,4));
+    const croppedStates = states.slice(1, 5);
+    this.osc.send('/states/update', croppedStates);
 
     for (let i = 0; i < states.length; i++)
       states[i] = 0;
