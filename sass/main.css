@@ -667,7 +667,7 @@ p, .normal {
 /**
  * Entry point for application specific styling and overriding.
  */
-#container {
+body {
   background-color: #9CC5C7;
   color: #fff; }
 
