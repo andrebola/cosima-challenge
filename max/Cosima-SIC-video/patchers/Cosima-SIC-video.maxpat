@@ -5,11 +5,11 @@
 			"major" : 7,
 			"minor" : 2,
 			"revision" : 1,
-			"architecture" : "x64",
+			"architecture" : "x86",
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 391.0, 79.0, 815.0, 787.0 ],
+		"rect" : [ 391.0, 79.0, 870.0, 787.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -348,7 +348,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 671.5, 389.0, 60.0, 22.0 ],
+					"patching_rect" : [ 701.5, 389.0, 60.0, 22.0 ],
 					"style" : "",
 					"text" : "loadbang"
 				}
@@ -429,9 +429,9 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 671.5, 600.0, 142.0, 22.0 ],
+					"patching_rect" : [ 701.5, 600.0, 118.0, 22.0 ],
 					"style" : "",
-					"text" : "read sunset_1.mov, start"
+					"text" : "read wind.mov, start"
 				}
 
 			}
@@ -443,9 +443,9 @@
 					"id" : "obj-56",
 					"maxclass" : "newobj",
 					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 671.5, 632.0, 59.0, 23.0 ],
+					"numoutlets" : 2,
+					"outlettype" : [ "jit_gl_texture", "" ],
+					"patching_rect" : [ 701.5, 632.0, 59.0, 23.0 ],
 					"style" : "",
 					"text" : "jit.gl.hap"
 				}
@@ -460,7 +460,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 2,
 					"outlettype" : [ "jit_gl_texture", "" ],
-					"patching_rect" : [ 542.5, 686.0, 148.0, 20.0 ],
+					"patching_rect" : [ 572.5, 686.0, 148.0, 20.0 ],
 					"style" : "",
 					"text" : "jit.gl.pix cosima @gen xfade"
 				}
@@ -475,7 +475,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 587.0, 539.0, 126.0, 22.0 ],
+					"patching_rect" : [ 617.0, 539.0, 126.0, 22.0 ],
 					"style" : "",
 					"text" : "read rain_1.mov, start"
 				}
@@ -489,9 +489,9 @@
 					"id" : "obj-53",
 					"maxclass" : "newobj",
 					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 587.0, 571.0, 59.0, 23.0 ],
+					"numoutlets" : 2,
+					"outlettype" : [ "jit_gl_texture", "" ],
+					"patching_rect" : [ 617.0, 571.0, 59.0, 23.0 ],
 					"style" : "",
 					"text" : "jit.gl.hap"
 				}
@@ -506,7 +506,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 2,
 					"outlettype" : [ "jit_gl_texture", "" ],
-					"patching_rect" : [ 458.0, 625.0, 148.0, 20.0 ],
+					"patching_rect" : [ 488.0, 625.0, 148.0, 20.0 ],
 					"style" : "",
 					"text" : "jit.gl.pix cosima @gen xfade"
 				}
@@ -521,7 +521,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 536.0, 458.0, 133.0, 22.0 ],
+					"patching_rect" : [ 566.0, 458.0, 133.0, 22.0 ],
 					"style" : "",
 					"text" : "read thunder.mov, start"
 				}
@@ -535,9 +535,9 @@
 					"id" : "obj-51",
 					"maxclass" : "newobj",
 					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 536.0, 490.0, 59.0, 23.0 ],
+					"numoutlets" : 2,
+					"outlettype" : [ "jit_gl_texture", "" ],
+					"patching_rect" : [ 566.0, 490.0, 59.0, 23.0 ],
 					"style" : "",
 					"text" : "jit.gl.hap"
 				}
@@ -585,7 +585,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "jit_matrix", "" ],
-					"patching_rect" : [ 542.5, 739.0, 224.0, 20.0 ],
+					"patching_rect" : [ 572.5, 739.0, 224.0, 20.0 ],
 					"style" : "",
 					"text" : "jit.gl.videoplane cosima @transform_reset 2"
 				}
@@ -615,9 +615,9 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 407.0, 458.0, 118.0, 22.0 ],
+					"patching_rect" : [ 407.0, 458.0, 142.0, 22.0 ],
 					"style" : "",
-					"text" : "read wind.mov, start"
+					"text" : "read sunset_1.mov, start"
 				}
 
 			}
@@ -629,8 +629,8 @@
 					"id" : "obj-37",
 					"maxclass" : "newobj",
 					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"numoutlets" : 2,
+					"outlettype" : [ "jit_gl_texture", "" ],
 					"patching_rect" : [ 407.0, 490.0, 59.0, 23.0 ],
 					"style" : "",
 					"text" : "jit.gl.hap"
@@ -997,7 +997,7 @@
 					"destination" : [ "obj-51", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 545.5, 481.0, 545.5, 481.0 ],
+					"midpoints" : [ 575.5, 481.0, 575.5, 481.0 ],
 					"source" : [ "obj-50", 0 ]
 				}
 
@@ -1016,7 +1016,7 @@
 					"destination" : [ "obj-53", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 596.5, 562.0, 596.5, 562.0 ],
+					"midpoints" : [ 626.5, 562.0, 626.5, 562.0 ],
 					"source" : [ "obj-52", 0 ]
 				}
 
@@ -1044,7 +1044,7 @@
 					"destination" : [ "obj-56", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 681.0, 623.0, 681.0, 623.0 ],
+					"midpoints" : [ 711.0, 623.0, 711.0, 623.0 ],
 					"source" : [ "obj-55", 0 ]
 				}
 
@@ -1144,7 +1144,7 @@
 					"destination" : [ "obj-10", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 681.0, 434.0, 416.5, 434.0 ],
+					"midpoints" : [ 711.0, 434.0, 416.5, 434.0 ],
 					"source" : [ "obj-62", 0 ]
 				}
 
@@ -1154,7 +1154,7 @@
 					"destination" : [ "obj-50", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 681.0, 434.0, 545.5, 434.0 ],
+					"midpoints" : [ 711.0, 434.0, 575.5, 434.0 ],
 					"source" : [ "obj-62", 0 ]
 				}
 
@@ -1164,7 +1164,7 @@
 					"destination" : [ "obj-52", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 681.0, 529.5, 596.5, 529.5 ],
+					"midpoints" : [ 711.0, 529.5, 626.5, 529.5 ],
 					"source" : [ "obj-62", 0 ]
 				}
 
@@ -1174,7 +1174,7 @@
 					"destination" : [ "obj-55", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 681.0, 505.0, 681.0, 505.0 ],
+					"midpoints" : [ 711.0, 505.0, 711.0, 505.0 ],
 					"source" : [ "obj-62", 0 ]
 				}
 
@@ -1185,6 +1185,10 @@
 				"bootpath" : "~/workspace/cosima-challenge/max/Cosima-SIC-video/code",
 				"type" : "gJIT",
 				"implicit" : 1
+			}
+, 			{
+				"name" : "jit.gl.hap.mxo",
+				"type" : "iLaX"
 			}
  ],
 		"autosave" : 0
