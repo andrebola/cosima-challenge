@@ -109,7 +109,7 @@ export default class PlayerExperience extends soundworks.Experience {
     this.show();
     
     this.bgRenderer = new BackgroundRenderer();
-    this.bgRenderer.setColor(4);
+    this.bgRenderer.setColor(0);
 	this.circlesRenderer = new Circles();
 	this.rainRenderer = new RainDrops();
     
@@ -135,6 +135,7 @@ export default class PlayerExperience extends soundworks.Experience {
     //   that.rainSynth.trigger();
     //   setTimeout(triggerRainDrop, Math.random() * 150 + 100);
     // }());
+    
   }
   
   
@@ -191,13 +192,19 @@ export default class PlayerExperience extends soundworks.Experience {
     this.lastAccY = accY;
     this.lastAccZ = accZ;
 
+/*
 	const index = stateIndices[this.state];
     if(index >= stateIndices.wind) {
 	    // this.slowDeltaAccMag => use for wind
 	    this.bgRenderer.setOpacity(1 - this.slowDeltaAccMag);
     } else {
 	    this.bgRenderer.setOpacity(.75);
-    }	    
+    }
+*/    
+    
+    // Wind Visual Always Active
+    this.bgRenderer.setOpacity(1 - this.slowDeltaAccMag);
+	    
   }
 
   onTimeout() {
