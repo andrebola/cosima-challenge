@@ -3,15 +3,6 @@ import { Experience } from 'soundworks/server';
 
 const states = [0,0,0,0,0];
 const refreshTimeout = 200;
-
-// const midiNotes = [0, 2, 4, 5, 7, 9, 11];
-// function getRandomNoteFromCScale() {
-//   const index = Math.floor(Math.random() * midiNotes.length);
-//   const note = midiNotes[index];
-//   const octava = Math.floor(Math.random() * 6);
-//   return note + (12 * octava);
-// }
-
 let lastState = undefined;
 
 // server-side 'player' experience.

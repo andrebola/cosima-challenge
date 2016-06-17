@@ -12,8 +12,8 @@ class Rain {
 
     this.opacity = 0.75;
     this.color = '#fff';
-
-    this.growthVelocity = 10; // pixels / sec
+	
+    this.growthVelocity = Math.random() * 5 + 10; // pixels / sec
     this.minVelocity = 50; // if gain is < 0.25 => constant growth
     this.friction = -50; // pixels / sec
 

@@ -112,9 +112,9 @@ export default class PlayerExperience extends soundworks.Experience {
     this.show();
 
     this.bgRenderer = new BackgroundRenderer();
-    this.bgRenderer.setColor(4);
-  	this.circlesRenderer = new Circles();
-  	this.rainRenderer = new RainDrops();
+    this.bgRenderer.setColor(0);
+	  this.circlesRenderer = new Circles();
+	  this.rainRenderer = new RainDrops();
 
     this.view.addRenderer(this.bgRenderer);
     this.view.addRenderer(this.circlesRenderer);
@@ -130,8 +130,6 @@ export default class PlayerExperience extends soundworks.Experience {
     const surface = new TouchSurface(this.view.$el);
     surface.addListener('touchstart', this.onTouchStart);
   }
-
-
 
   onTouchStart(touchId, normX, normY) {
     this.circlesRenderer.trigger(touchId, normX, normY, { duration: 1 });
@@ -185,12 +183,8 @@ export default class PlayerExperience extends soundworks.Experience {
 
 	  const index = stateIndices[this.state];
 
-    if (index >= stateIndices.wind) {
-	    // this.slowDeltaAccMag => use for wind
-	    this.bgRenderer.setOpacity(1 - this.slowDeltaAccMag);
-    } else {
-      this.bgRenderer.setOpacity(.75);
-    }
+    // Wind Visual Always Active
+    this.bgRenderer.setOpacity(1 - this.slowDeltaAccMag);
 
     if (index === stateIndices.wind) {
       if (!this.hasWind) {
@@ -266,7 +260,7 @@ export default class PlayerExperience extends soundworks.Experience {
 
         const that = this;
 
-    		(function triggerRainDrop() {
+    	  (function triggerRainDrop() {
     	    if (that.rainIsActive) {
             const nbrRainDrops = Math.floor(Math.random() * 8);
 
