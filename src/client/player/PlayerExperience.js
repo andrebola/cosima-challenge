@@ -244,7 +244,7 @@ export default class PlayerExperience extends soundworks.Experience {
 
         const that = this;
 
-    		(function triggerRainDrop() {
+    	  (function triggerRainDrop() {
     	    if (that.rainIsActive) {
             const nbrRainDrops = Math.floor(Math.random() * 8);
 
