@@ -39,13 +39,13 @@
 		"boxes" : [ 			{
 				"box" : 				{
 					"id" : "obj-91",
-					"linecount" : 3,
+					"linecount" : 4,
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 79.0, 214.0, 215.0, 47.0 ],
+					"patching_rect" : [ 79.0, 214.0, 215.0, 60.0 ],
 					"style" : "",
-					"text" : "Instructions:\n1. Go into Presentation Mode\n2. Hit the ESC key"
+					"text" : "Instructions:\n1. Lock patch\n2. Go into Presentation Mode\n3. Hit the ESC key"
 				}
 
 			}
@@ -69,7 +69,7 @@
 					"numinlets" : 0,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 299.5, 10.0, 51.0, 22.0 ],
+					"patching_rect" : [ 294.0, 10.0, 51.0, 22.0 ],
 					"style" : "",
 					"text" : "r height"
 				}
@@ -333,11 +333,12 @@
 					"fontname" : "Verdana",
 					"fontsize" : 70.0,
 					"id" : "obj-53",
-					"linecount" : 2,
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 121.0, 684.0, 904.0, 177.0 ],
+					"patching_rect" : [ 79.0, 642.0, 1037.0, 92.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 208.5, 784.0, 1037.0, 92.0 ],
 					"style" : "",
 					"text" : "Go To: 10.441.225.25:8000  ",
 					"textcolor" : [ 1.0, 1.0, 1.0, 1.0 ]
